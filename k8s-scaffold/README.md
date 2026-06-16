@@ -9,7 +9,7 @@
 ```bash
 cd tpl-app/k8s-scaffold/
 
-# 一次生成四组件和业务 App 总部署入口
+# 一次生成四个可开发组件、两个配套 Worker 和业务 App 总部署入口
 ./scaffold-full-app.sh research --output-dir /home/zymun/k8s/sunmoonai/app-platform
 
 # 后端服务（NestJS / FastAPI，默认接入 DB、S3 和 Elasticsearch）
@@ -70,6 +70,13 @@ cd tpl-app/k8s-scaffold/
 Backend 默认启用数据库、对象存储和 Elasticsearch 接线。`--with-*`
 可用于显式表达，`--without-*` 仅用于确实不需要
 对应能力的特殊服务。
+
+`scaffold-full-app.sh` 还会生成：
+
+- `celeryworker-<app>-admin-backend`，复用 admin-backend 镜像。
+- `nodebullworker-<app>-web-backend`，复用 web-backend 镜像。
+
+两个 Worker 默认标记为已配置但不启动，需在 App 聚合配置中按集群显式启用。
 
 对象存储接线不创建 Bucket 或凭据，只让 Deployment 引用 Data
 Platform S3 Provisioner 创建的 `<app>-s3` ConfigMap 和 Secret。该选项只适用

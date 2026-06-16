@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nodebullworker-tpl-web-backend-config
+  namespace: ${NAMESPACE:-app-platform-dev}
+  labels:
+    app: nodebullworker-tpl-web-backend
+    component: node-bull-worker
+    backend: tpl-web-backend
+data:
+  NODE_ENV: "${NODE_ENV}"
+  QUEUE_ON: "${QUEUE_ON}"

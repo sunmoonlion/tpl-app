@@ -52,6 +52,8 @@ APP_VAR_PREFIX="$(echo "${BUSINESS_APP_NAME%-app}" | tr '[:lower:]-' '[:upper:]_
 for component in ADMIN_BACKEND ADMIN_FRONTEND WEB_BACKEND WEB_FRONTEND; do
     export "${APP_VAR_PREFIX}_${component}_TAG=${APP_IMAGE_TAG}"
 done
+export "CELERYWORKER_${APP_VAR_PREFIX}_ADMIN_BACKEND_TAG=${APP_IMAGE_TAG}"
+export "NODEBULLWORKER_${APP_VAR_PREFIX}_WEB_BACKEND_TAG=${APP_IMAGE_TAG}"
 
 call_subscript() {
     local script_path="$1"

@@ -1,7 +1,7 @@
 # tpl-app
 
 
-通用应用模板，包含四个子模块，用于快速初始化新项目。
+通用应用模板，包含四个可开发子模块和两个配套 Worker 运行角色，用于快速初始化新项目。
 
 模板中的四个组件和两个 Backend 的 DB、S3、Elasticsearch 能力均保持完整。
 运行时是否创建 Pod，只在 K8s 部署配置中按集群决定。
@@ -17,6 +17,9 @@ tpl-app/
 ├── CLAUDE.md                # Claude Code 项目上下文模板
 ├── docs-claude/             # Claude Code 文档体系模板
 ├── docs-cursor/             # Cursor 文档体系模板
+├── docs-worker/             # Worker 使用说明
+├── nodebullworker-tpl-web-backend/ # web-backend 的 Bull/Redis Worker 部署
+├── celeryworker-tpl-admin-backend/ # admin-backend 的 Celery/RabbitMQ Worker 部署
 ├── tpl-admin-frontend/      # 管理后台前端（Vue 3 + Vite，CSR）
 ├── tpl-admin-backend/       # 管理后台后端（FastAPI + SQLAlchemy）
 ├── tpl-web-frontend/        # 用户端前端（Next.js 16，SSR）
@@ -40,6 +43,18 @@ tpl-app/
 管理端：tpl-admin-frontend  +  tpl-admin-backend
 用户端：tpl-web-frontend    +  tpl-web-backend
 ```
+
+两个 Worker 不是新的业务组件或独立数据所有者：
+
+- `celeryworker-tpl-admin-backend` 复用 `tpl-admin-backend` 的镜像、代码、配置和数据责任。
+- `nodebullworker-tpl-web-backend` 复用 `tpl-web-backend` 的镜像、代码、配置和数据责任。
+- 模板实例化时始终生成两个 Worker；是否在某个集群启动，由 App 的 K8s 聚合部署开关决定。
+- Worker 不直接扩大数据库写入边界，仍遵守对应 Backend 的唯一写入和权威读取规则。
+
+详细说明：
+
+- [Celery Worker 使用说明](docs-worker/celery-worker-使用说明.md)
+- [Node Bull Worker 使用说明](docs-worker/nodebull-worker-使用说明.md)
 
 BFF 认证说明：
 - 当前建议采用「后端 BFF 统一对接 Casdoor」模式：
@@ -305,8 +320,8 @@ bash init.sh investment sunmoonlion
 ```
 
 脚本会自动完成：
-- 将四个子模块内所有文件中的 `tpl` / `Tpl` / `TPL` 替换为项目名
-- 重命名四个子模块目录，并修正各子模块 `.git` 指针
+- 将四个子模块和两个 Worker 模板内的 `tpl` / `Tpl` / `TPL` 替换为项目名
+- 重命名四个子模块和两个 Worker 目录，并修正各子模块 `.git` 指针
 - 更新 `.gitmodules` 中的远程 URL
 - 若当前是 Git 克隆：同步父仓 `.git/modules/*`、各子模块的 `worktree` 与远程 URL、父仓 `.git/config` 中的子模块段，并把索引里的子模块路径从 `tpl-*` 改为 `<项目名>-*`（避免仅改目录名后 `git submodule` 断裂）
 
@@ -330,7 +345,7 @@ mv <新项目名>-app <正式目录名>
 ### 5. 推送
 
 ```bash
-# 推送四个子模块
+# 推送四个子模块；两个 Worker 由父仓库直接跟踪，不是独立仓库
 cd <项目名>-admin-frontend && git push -u origin master && cd ..
 cd <项目名>-admin-backend  && git push -u origin master && cd ..
 cd <项目名>-web-frontend   && git push -u origin master && cd ..

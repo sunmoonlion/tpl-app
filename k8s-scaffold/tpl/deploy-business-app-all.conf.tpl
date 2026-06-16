@@ -21,6 +21,8 @@ __APP___admin_backend_configured="true"
 __APP___admin_frontend_configured="true"
 __APP___web_backend_configured="true"
 __APP___web_frontend_configured="true"
+celeryworker___APP___admin_backend_configured="true"
+nodebullworker___APP___web_backend_configured="true"
 
 C1___APP___admin_backend_enabled="true"
 C2___APP___admin_backend_enabled="false"
@@ -42,10 +44,25 @@ C2___APP___web_frontend_enabled="false"
 C3___APP___web_frontend_enabled="false"
 KIND___APP___web_frontend_enabled="true"
 
+C1_celeryworker___APP___admin_backend_enabled="false"
+C2_celeryworker___APP___admin_backend_enabled="false"
+C3_celeryworker___APP___admin_backend_enabled="false"
+KIND_celeryworker___APP___admin_backend_enabled="false"
+
+C1_nodebullworker___APP___web_backend_enabled="false"
+C2_nodebullworker___APP___web_backend_enabled="false"
+C3_nodebullworker___APP___web_backend_enabled="false"
+KIND_nodebullworker___APP___web_backend_enabled="false"
+
 C1___APP___admin_backend_priority=900
 C2___APP___admin_backend_priority=900
 C3___APP___admin_backend_priority=900
 KIND___APP___admin_backend_priority=900
+
+C1_celeryworker___APP___admin_backend_priority=890
+C2_celeryworker___APP___admin_backend_priority=890
+C3_celeryworker___APP___admin_backend_priority=890
+KIND_celeryworker___APP___admin_backend_priority=890
 
 C1___APP___admin_frontend_priority=800
 C2___APP___admin_frontend_priority=800
@@ -56,6 +73,11 @@ C1___APP___web_backend_priority=700
 C2___APP___web_backend_priority=700
 C3___APP___web_backend_priority=700
 KIND___APP___web_backend_priority=700
+
+C1_nodebullworker___APP___web_backend_priority=690
+C2_nodebullworker___APP___web_backend_priority=690
+C3_nodebullworker___APP___web_backend_priority=690
+KIND_nodebullworker___APP___web_backend_priority=690
 
 C1___APP___web_frontend_priority=600
 C2___APP___web_frontend_priority=600

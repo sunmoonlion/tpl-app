@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celeryworker-tpl-admin-backend
+  namespace: ${NAMESPACE:-app-platform-dev}
+  labels:
+    app: celeryworker-tpl-admin-backend
+    component: celery-worker
+    backend: tpl-admin-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celeryworker-tpl-admin-backend
+  template:
+    metadata:
+      labels:
+        app: celeryworker-tpl-admin-backend
+        component: celery-worker
+        backend: tpl-admin-backend
+    spec:
+      imagePullSecrets:
+      - name: ${CELERYWORKER_TPL_ADMIN_BACKEND_IMAGE_PULL_SECRET_NAME:-harbor-registry-secret}
+      containers:
+      - name: celeryworker
+        image: ${CELERYWORKER_TPL_ADMIN_BACKEND_FULL_IMAGE_NAME}
+        imagePullPolicy: ${IMAGE_PULL_POLICY:-Always}
+        command:
+        - sh
+        - -c
+        - |
+          set -eu
+          if [ -n "$(printenv CELERY_INCLUDE_MODULES)" ]; then
+            exec celery -A "$(printenv CELERY_APP_MODULE)" worker \
+              -I "$(printenv CELERY_INCLUDE_MODULES)" \
+              -l "$(printenv CELERY_LOG_LEVEL)" \
+              -Q "$(printenv CELERY_QUEUE)" \
+              -c "$(printenv CELERY_CONCURRENCY)"
+          fi
+          exec celery -A "$(printenv CELERY_APP_MODULE)" worker \
+            -l "$(printenv CELERY_LOG_LEVEL)" \
+            -Q "$(printenv CELERY_QUEUE)" \
+            -c "$(printenv CELERY_CONCURRENCY)"
+        envFrom:
+        - configMapRef:
+            name: ${TPL_ADMIN_BACKEND_CONFIGMAP_NAME:-tpl-admin-backend-config}
+        - secretRef:
+            name: ${TPL_ADMIN_BACKEND_SECRET_NAME:-tpl-admin-backend-secret}
+        - configMapRef:
+            name: ${CELERYWORKER_TPL_ADMIN_BACKEND_CONFIGMAP_NAME:-celeryworker-tpl-admin-backend-config}
+        - secretRef:
+            name: ${CELERYWORKER_TPL_ADMIN_BACKEND_SECRET_NAME:-celeryworker-tpl-admin-backend-secret}
+        env:
+        - name: CELERY_PRODUCER_SERVICE
+          value: "tpl-admin-backend"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - celery -A app.worker inspect ping --timeout 10
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 20
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - grep -aq celery /proc/1/cmdline
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3

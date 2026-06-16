@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${NAMESPACE}
+  labels:
+    app: app-platform
+    component: nodebullworker-tpl-web-backend
+    environment: ${ENVIRONMENT}
+    managed-by: deploy-script

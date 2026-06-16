@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: celeryworker-tpl-admin-backend-config
+  namespace: ${NAMESPACE:-app-platform-dev}
+  labels:
+    app: celeryworker-tpl-admin-backend
+    component: celery-worker
+    backend: tpl-admin-backend
+data:
+  CELERY_APP_MODULE: "${CELERY_APP_MODULE}"
+  CELERY_QUEUE: "${CELERY_QUEUE}"
+  CELERY_CONCURRENCY: "${CELERY_CONCURRENCY}"
+  CELERY_LOG_LEVEL: "${CELERY_LOG_LEVEL}"
+  CELERY_INCLUDE_MODULES: "${CELERY_INCLUDE_MODULES}"
+  CELERY_TASK_DEFAULT_QUEUE: "${CELERY_QUEUE}"
+  CELERY_WORKER_PREFETCH_MULTIPLIER: "${CELERY_WORKER_PREFETCH_MULTIPLIER}"
+  CELERY_TASK_ACKS_LATE: "${CELERY_TASK_ACKS_LATE}"
+  CELERY_WORKER_MAX_TASKS_PER_CHILD: "${CELERY_WORKER_MAX_TASKS_PER_CHILD}"

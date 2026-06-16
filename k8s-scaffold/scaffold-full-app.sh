@@ -39,6 +39,8 @@ mkdir -p "$APP_DIR"
 "$SCRIPT_DIR/scaffold.sh" "${APP_NAME}-web-frontend" 3000 \
     --type node-frontend --namespace "$NAMESPACE" \
     --output-dir "$APP_DIR/${APP_NAME}-web-frontend"
+"$SCRIPT_DIR/scaffold-workers.sh" "$APP_NAME" \
+    --output-dir "$APP_DIR"
 
 ALL_DIR="$APP_DIR/deploy-${APP_NAME}-app-all"
 mkdir -p "$ALL_DIR"
