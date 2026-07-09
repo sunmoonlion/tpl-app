@@ -1,17 +1,17 @@
 #!/bin/bash
-# __APP_NAME__ PVC YAML 生成脚本
+# celeryworker-tpl-admin-backend PVC YAML 生成脚本
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_FILE="$SCRIPT_DIR/generate-__APP_NAME__-pvc.conf"
+CONFIG_FILE="$SCRIPT_DIR/generate-celeryworker-tpl-admin-backend-pvc.conf"
 K8S_RESOURCE_DIR="$(cd "$SCRIPT_DIR/../../../.." && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../../../../../.." && pwd)"
 OUTPUT_DIR="$SCRIPT_DIR"
 
-MAIN_DEPLOY_CONFIG="$PROJECT_ROOT/deploy-__APP_NAME__/app/deploy-app/deploy-__APP_NAME__.conf"
+MAIN_DEPLOY_CONFIG="$PROJECT_ROOT/deploy-celeryworker-tpl-admin-backend/app/deploy-app/deploy-celeryworker-tpl-admin-backend.conf"
 if [ -f "$MAIN_DEPLOY_CONFIG" ]; then
-    _temp_namespace=$(source "$MAIN_DEPLOY_CONFIG" 2>/dev/null && echo "${__APP_NAME_UPPER___NAMESPACE:-}")
+    _temp_namespace=$(source "$MAIN_DEPLOY_CONFIG" 2>/dev/null && echo "${CELERYWORKER_TPL_ADMIN_BACKEND_NAMESPACE:-}")
     _temp_environment=$(source "$MAIN_DEPLOY_CONFIG" 2>/dev/null && echo "${ENVIRONMENT:-}")
     [ -n "$_temp_namespace" ] && [ -z "${NAMESPACE:-}" ] && export NAMESPACE="$_temp_namespace"
     [ -n "$_temp_environment" ] && [ -z "${ENVIRONMENT:-}" ] && export ENVIRONMENT="$_temp_environment"
@@ -58,7 +58,7 @@ validate_yaml() {
 }
 
 main() {
-    log_info "开始生成 __APP_NAME__ PVC YAML 文件..."
+    log_info "开始生成 celeryworker-tpl-admin-backend PVC YAML 文件..."
 
     local full_template_path
     if [[ "$TEMPLATE_FILE" = /* ]]; then
