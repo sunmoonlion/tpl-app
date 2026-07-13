@@ -14,9 +14,8 @@
 tpl-app/
 ├── init.sh                  # 初始化脚本
 ├── .cursor/rules/           # Cursor 规则（.mdc，按 globs 生效）
-├── CLAUDE.md                # Claude Code 项目上下文模板
-├── docs-claude/             # Claude Code 文档体系模板
-├── docs-cursor/             # Cursor 文档体系模板
+├── CLAUDE.md                # AI 协作入口（不保存平行项目事实）
+├── docs/                    # 工具无关的当前文档入口
 ├── docs-worker/             # Worker 使用说明
 ├── nodebullworker-tpl-web-backend/ # web-backend 的 Bull/Redis Worker 部署
 ├── celeryworker-tpl-admin-backend/ # admin-backend 的 Celery/RabbitMQ Worker 部署
