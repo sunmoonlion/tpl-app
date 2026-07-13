@@ -1,22 +1,34 @@
 import { QueryClientProvider } from "@tanstack/react-query";
-import { App as AntApp, ConfigProvider } from "antd";
+import { App as AntApp, ConfigProvider, theme as antdTheme } from "antd";
 import enUS from "antd/locale/en_US";
 import zhCN from "antd/locale/zh_CN";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { useEffect, useState } from "react";
 
 import { LocaleProvider, useLocale } from "~/lib/i18n";
 import { queryClient } from "~/lib/query-client";
+import { useUiStore, type ThemeMode } from "~/store/ui";
 
 import "antd/dist/reset.css";
 import "./styles/app.css";
 
 function AntDesignBoundary() {
   const { locale } = useLocale();
+  const { themeMode, themeColor } = useUiStore();
+  const resolvedTheme = useResolvedTheme(themeMode);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = resolvedTheme;
+    document.documentElement.style.setProperty("--primary", themeColor);
+  }, [resolvedTheme, themeColor]);
+
   return (
     <ConfigProvider
       locale={locale === "zh-CN" ? zhCN : enUS}
       theme={{
-        token: { colorPrimary: "#1677ff", borderRadius: 6 },
+        algorithm:
+          resolvedTheme === "dark" ? antdTheme.darkAlgorithm : undefined,
+        token: { colorPrimary: themeColor, borderRadius: 6 },
         components: {
           Layout: { siderBg: "#001529", headerBg: "#ffffff" },
         },
@@ -27,6 +39,20 @@ function AntDesignBoundary() {
       </AntApp>
     </ConfigProvider>
   );
+}
+
+function useResolvedTheme(mode: ThemeMode): "light" | "dark" {
+  const [systemDark, setSystemDark] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const update = () => setSystemDark(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  return mode === "system" ? (systemDark ? "dark" : "light") : mode;
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
