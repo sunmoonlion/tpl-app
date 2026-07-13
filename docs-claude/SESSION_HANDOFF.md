@@ -39,7 +39,7 @@
 | tpl-web-backend | `node dist/main`（在 tpl-web-backend/app/） | 8000 |
 | tpl-web-frontend | `npm run dev`（在 tpl-web-frontend/app/） | 3000 |
 | tpl-admin-backend | `uv run uvicorn app.main:app --host 0.0.0.0 --port 8001`（在 tpl-admin-backend/app/） | 8001 |
-| tpl-admin-frontend | `pnpm dev --host`（在 tpl-admin-frontend/，需先 pnpm install） | 5173 |
+| tpl-admin-frontend | `pnpm dev --host`（React 模板，在 tpl-admin-frontend/，需先 pnpm install） | 5173 |
 
 ---
 
@@ -63,7 +63,7 @@
 | `tpl-web-backend/app/.env` | 后端环境变量（含 NODE_TLS_REJECT_UNAUTHORIZED=0） |
 | `tpl-web-frontend/app/.env.local` | 前端环境变量（NEXT_PUBLIC_API_URL） |
 | `tpl-admin-backend/app/.env` | admin 后端（CASDOOR_REDIRECT_URI 已改为外网 IP） |
-| `tpl-admin-frontend/.env` | admin 前端（VITE_API_URL 已改为外网 IP） |
+| `tpl-admin-frontend/.env` | React admin 前端（VITE_API_URL 已改为外网 IP） |
 | `~/packages-to-be-installed/images/casdoor-latest.tar` | Casdoor 官方镜像离线备份（64MB） |
 
 ---

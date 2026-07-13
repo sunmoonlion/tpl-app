@@ -77,7 +77,7 @@ sudo nerdctl login harbor.sunmoonai.com:30443
 
 ---
 
-## 一、tpl-admin-frontend（Vue 3 + Vite → nginx）
+## 一、tpl-admin-frontend（React Router + Vite → nginx）
 
 ### 手动构建
 
@@ -86,7 +86,8 @@ cd tpl-admin-frontend
 
 # 黄金命令（与脚本等价）
 docker build -f mybuild/Dockerfile \
-  --build-arg REGISTRY=harbor.sunmoonai.com:30443/k8s-images \
+  --build-arg NODE_IMAGE=node:22.22.0-alpine \
+  --build-arg NGINX_IMAGE=harbor.sunmoonai.com:30443/k8s-images/nginx:stable-alpine \
   --build-arg VITE_API_URL=http://localhost:8001 \
   -t tpl-admin-frontend:1.0.0 .
 
@@ -102,11 +103,10 @@ cd mybuild
 
 | 参数 | 说明 | 默认值 |
 |---|---|---|
-| `REGISTRY` | Docker 基础镜像仓库 | `harbor.sunmoonai.com:30443/k8s-images` |
-| `NODE_VERSION` | Node.js 版本 | `18.20.0` |
+| `NODE_IMAGE` | Node 构建基础镜像 | `node:22.22.0-alpine` |
+| `NGINX_IMAGE` | Nginx 运行基础镜像 | Harbor 固定镜像 |
 | `VITE_API_URL` | Admin BFF 地址，构建时静态嵌入 bundle | 无，**必须传入** |
-| `VITE_MOCK_ENABLE` | 是否开启 Mock | `false` |
-| `VITE_PWA_DEBUG` | 是否开启 PWA 调试 | `false` |
+| `BASE_PATH` | 非根路径部署前缀 | `/` |
 
 > `VITE_*` 构建时静态嵌入，**不同环境须构建不同镜像**。
 
