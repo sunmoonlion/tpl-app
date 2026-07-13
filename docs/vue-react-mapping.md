@@ -1,6 +1,6 @@
 # Vue Admin -> React Admin 对照
 
-目标是让熟悉 Vue 模板的人快速定位同一概念，而不是用 React 模拟 Vue。
+目标是让熟悉 Vue 模板的人快速定位同一概念，而不是用 React 模拟 Vue。完整的逐项能力、页面和 legacy 处置矩阵见 [`vue-react-capability-matrix.md`](./vue-react-capability-matrix.md)；本文件只保留概念和架构映射。
 
 | Vue Admin                      | React Admin                     | 说明                                          |
 | ------------------------------ | ------------------------------- | --------------------------------------------- |
