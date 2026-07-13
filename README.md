@@ -1,7 +1,7 @@
 # tpl-app
 
 
-通用应用模板，包含四个可开发子模块、一个 Vue Admin 迁移参考仓库和两个配套 Worker 运行角色，用于快速初始化新项目。
+通用应用模板，包含四个可开发子模块和两个配套 Worker 运行角色，用于快速初始化新项目。
 
 模板中的四个组件和两个 Backend 的 DB、S3、Elasticsearch 能力均保持完整。
 运行时是否创建 Pod，只在 K8s 部署配置中按集群决定。
@@ -21,7 +21,6 @@ tpl-app/
 ├── nodebullworker-tpl-web-backend/ # web-backend 的 Bull/Redis Worker 部署
 ├── celeryworker-tpl-admin-backend/ # admin-backend 的 Celery/RabbitMQ Worker 部署
 ├── tpl-admin-frontend/      # 管理后台主模板（React 19 + React Router，CSR）
-├── tpl-admin-frontend-vue/  # 原 Vue Admin 模板（迁移参考与回滚基线）
 ├── tpl-admin-backend/       # 管理后台后端（FastAPI + SQLAlchemy）
 ├── tpl-web-frontend/        # 用户端前端（Next.js 16，SSR）
 └── tpl-web-backend/         # 用户端 BFF 后端（NestJS + TypeScript）
@@ -32,7 +31,6 @@ tpl-app/
 | 子模块 | 技术栈 | 说明 |
 |--------|--------|------|
 | tpl-admin-frontend | React 19 + React Router + Vite | 管理后台主模板，CSR 模式 |
-| tpl-admin-frontend-vue | Vue 3 + Vite | 原管理后台模板，仅作迁移参考和回滚基线 |
 | tpl-admin-backend | FastAPI + Python 3.12 | 管理后台后端，DDD 架构，Casdoor BFF 认证 |
 | tpl-web-frontend | Next.js 16 + shadcn/ui | 用户端前端，SSR 模式，Casdoor BFF 认证 |
 | tpl-web-backend | NestJS + TypeScript | 用户端 BFF 后端，Casdoor OIDC 对接 |
