@@ -86,7 +86,7 @@ cd tpl-admin-frontend
 
 # 黄金命令（与脚本等价）
 docker build -f mybuild/Dockerfile \
-  --build-arg NODE_IMAGE=node:22.22.0-alpine \
+  --build-arg NODE_IMAGE=harbor.sunmoonai.com:30443/k8s-images/node:24.18.0-alpine@sha256:4ba75f835bb8802193e4c114572113d4b26f95f6f094f4b5229d2a77773e0afc \
   --build-arg NGINX_IMAGE=harbor.sunmoonai.com:30443/k8s-images/nginx:stable-alpine \
   --build-arg VITE_API_URL=http://localhost:8001 \
   -t tpl-admin-frontend:1.0.0 .
@@ -103,7 +103,7 @@ cd mybuild
 
 | 参数 | 说明 | 默认值 |
 |---|---|---|
-| `NODE_IMAGE` | Node 构建基础镜像 | `node:22.22.0-alpine` |
+| `NODE_IMAGE` | Node 24.18.0 LTS 构建基础镜像 | Harbor tag + 固定 linux/amd64 digest |
 | `NGINX_IMAGE` | Nginx 运行基础镜像 | Harbor 固定镜像 |
 | `VITE_API_URL` | Admin BFF 地址，构建时静态嵌入 bundle | 无，**必须传入** |
 | `BASE_PATH` | 非根路径部署前缀 | `/` |
@@ -195,7 +195,7 @@ cd mybuild
 | 参数 | 说明 | 默认值 |
 |---|---|---|
 | `REGISTRY` | Docker 基础镜像仓库 | `harbor.sunmoonai.com:30443/k8s-images` |
-| `NODE_VERSION` | Node.js 版本 | `20.18.0` |
+| `NODE_VERSION` | Node.js LTS 版本 | `24.18.0` |
 | `NEXT_PUBLIC_API_URL` | Web BFF 地址，构建时静态嵌入 | 无，**必须传入** |
 | `NEXT_PUBLIC_APP_NAME` | 应用名称 | `tpl` |
 
@@ -325,9 +325,7 @@ CI 中通过 Kaniko `--build-arg` 同样传入；`NO_PROXY` 须包含 Harbor 与
 ```text
 harbor.sunmoonai.com:30443
 └── k8s-images/                         ← Harbor 项目（需提前在 Harbor UI 创建）
-    ├── node:18.20.0-alpine             ← 基础镜像
-    ├── node:20.18.0
-    ├── node:20.18.0-alpine
+    ├── node:24.18.0-alpine             ← 当前 Node LTS 基础镜像（发布按 digest 引用）
     ├── python:3.12-slim
     ├── nginx:stable-alpine
     ├── tpl-admin-frontend:<git-sha>    ← 应用镜像
@@ -348,9 +346,7 @@ docker login harbor.sunmoonai.com:30443
 HARBOR="harbor.sunmoonai.com:30443/k8s-images"
 
 for img in \
-  "node:18.20.0-alpine" \
-  "node:20.18.0" \
-  "node:20.18.0-alpine" \
+  "node:24.18.0-alpine" \
   "python:3.12-slim" \
   "nginx:stable-alpine"; do
   name="${img%%:*}"   # node / python / nginx
@@ -363,8 +359,6 @@ done
 
 | 原始镜像 | Harbor 缓存路径 |
 |---|---|
-| `node:18.20.0-alpine` | `harbor.sunmoonai.com:30443/k8s-images/node:18.20.0-alpine` |
-| `node:20.18.0` | `harbor.sunmoonai.com:30443/k8s-images/node:20.18.0` |
-| `node:20.18.0-alpine` | `harbor.sunmoonai.com:30443/k8s-images/node:20.18.0-alpine` |
+| `node:24.18.0-alpine` | `harbor.sunmoonai.com:30443/k8s-images/node:24.18.0-alpine` |
 | `python:3.12-slim` | `harbor.sunmoonai.com:30443/k8s-images/python:3.12-slim` |
 | `nginx:stable-alpine` | `harbor.sunmoonai.com:30443/k8s-images/nginx:stable-alpine` |
