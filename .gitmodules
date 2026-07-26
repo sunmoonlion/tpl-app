@@ -10,3 +10,6 @@
 [submodule "tpl-admin-frontend"]
 	path = tpl-admin-frontend
 	url = https://gitee.com/sunmoonlion/tpl-admin-frontend.git
+[submodule "tpl-web-backend"]
+	path = tpl-web-backend
+	url = https://gitee.com/sunmoonlion/tpl-web-backend.git
