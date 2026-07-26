@@ -1,6 +1,6 @@
-[submodule "tpl-web-backend"]
-	path = tpl-web-backend
-	url = https://gitee.com/sunmoonlion/tpl-web-backend.git
+[submodule "tpl-web-backend-nest"]
+	path = tpl-web-backend-nest
+	url = https://gitee.com/sunmoonlion/tpl-web-backend-nest.git
 [submodule "tpl-web-frontend"]
 	path = tpl-web-frontend
 	url = https://gitee.com/sunmoonlion/tpl-web-frontend.git
