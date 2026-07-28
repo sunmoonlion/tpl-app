@@ -16,3 +16,6 @@
 [submodule "tpl-admin-frontend"]
 	path = tpl-admin-frontend
 	url = https://gitee.com/sunmoonlion/tpl-admin-frontend.git
+[submodule "tpl-admin-frontend-vue"]
+	path = tpl-admin-frontend-vue
+	url = https://gitee.com/sunmoonlion/tpl-admin-frontend-vue.git

@@ -1,0 +1,73 @@
+{
+  "contract_version": 1,
+  "policy": "COMMON capabilities require independently tested Admin and Web implementations; surface-specific capabilities must not be copied across surfaces.",
+  "capabilities": [
+    {
+      "id": "identity-session-csrf",
+      "class": "COMMON",
+      "admin": "tpl-admin-frontend/app/lib/server/auth-session.ts",
+      "web": "tpl-web-frontend/app/lib/server/auth-session.ts"
+    },
+    {
+      "id": "api-error-correlation",
+      "class": "COMMON",
+      "admin": "tpl-admin-frontend/app/lib/api/client.ts",
+      "web": "tpl-web-frontend/app/lib/common/api-client.ts"
+    },
+    {
+      "id": "query-mutation-boundary",
+      "class": "COMMON",
+      "admin": "tpl-admin-frontend/app/lib/query.ts",
+      "web": "tpl-web-frontend/app/lib/common/query.ts"
+    },
+    {
+      "id": "table-form-description-feedback",
+      "class": "COMMON",
+      "admin": "tpl-admin-frontend/app/components/crud",
+      "web": "tpl-web-frontend/app/components/common/common-kernel.tsx"
+    },
+    {
+      "id": "audited-action-upload-download",
+      "class": "COMMON",
+      "admin": "tpl-admin-frontend/app/components/crud",
+      "web": "tpl-web-frontend/app/components/common/common-kernel.tsx"
+    },
+    {
+      "id": "safe-rich-chart-progress",
+      "class": "COMMON",
+      "admin": "tpl-admin-frontend/app/components/rich",
+      "web": "tpl-web-frontend/app/components/common/common-kernel.tsx"
+    },
+    {
+      "id": "theme-locale-responsive",
+      "class": "COMMON",
+      "admin": "tpl-admin-frontend/app/components/admin/theme-controller.tsx",
+      "web": "tpl-web-frontend/app/app/[locale]/layout.tsx"
+    },
+    {
+      "id": "admin-shell-menu-tabs-settings",
+      "class": "ADMIN_ONLY",
+      "admin": "tpl-admin-frontend/app/components/admin",
+      "web": null
+    },
+    {
+      "id": "public-seo-ssr-cache",
+      "class": "WEB_ONLY",
+      "admin": null,
+      "web": "tpl-web-frontend/app/app/[locale]"
+    },
+    {
+      "id": "run-stream-hitl-citation",
+      "class": "WEB_ONLY",
+      "admin": null,
+      "web": "tpl-web-frontend/app/lib/interaction"
+    },
+    {
+      "id": "electron-pwa-full-rich-runtime",
+      "class": "DEFERRED",
+      "admin": null,
+      "web": null,
+      "trigger": "A product requirement and an approved security/cache lifecycle ADR"
+    }
+  ]
+}
