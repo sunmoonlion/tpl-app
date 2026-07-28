@@ -1,0 +1,259 @@
+{
+  "contract": "sunmoonai.web-interaction",
+  "contract_version": 1,
+  "valid": {
+    "snapshots": [
+      {
+        "contract_version": 1,
+        "run_id": "00000000-0000-5000-8000-000000000001",
+        "title": "Consumer contract reference run",
+        "status": "waiting_for_input",
+        "summary": null,
+        "last_sequence_no": 4,
+        "last_event_id": "00000000-0000-5000-8000-000000000013",
+        "citations": [
+          {
+            "contract_version": 1,
+            "evidence_id": "00000000-0000-5000-8000-000000000030",
+            "knowledge_document_id": "00000000-0000-5000-8000-000000000031",
+            "knowledge_document_version_id": "00000000-0000-5000-8000-000000000032",
+            "chunk_id": "00000000-0000-5000-8000-000000000033",
+            "title": "Contract reference",
+            "quote": "A bounded citation used by every Web provider implementation.",
+            "source_document_id": "00000000-0000-5000-8000-000000000034",
+            "source_document_version_id": "00000000-0000-5000-8000-000000000035",
+            "content_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_href": "/api/citations/00000000-0000-5000-8000-000000000030/source"
+          }
+        ],
+        "required_action": {
+          "action_id": "00000000-0000-5000-8000-000000000020",
+          "kind": "confirmation",
+          "prompt": "Confirm and continue."
+        },
+        "updated_at": "2030-01-01T00:00:03.000Z"
+      }
+    ],
+    "events": [
+      {
+        "contract_version": 1,
+        "event_id": "00000000-0000-5000-8000-000000000010",
+        "run_id": "00000000-0000-5000-8000-000000000001",
+        "sequence_no": 1,
+        "occurred_at": "2030-01-01T00:00:00.000Z",
+        "type": "status",
+        "data": { "status": "running" }
+      },
+      {
+        "contract_version": 1,
+        "event_id": "00000000-0000-5000-8000-000000000011",
+        "run_id": "00000000-0000-5000-8000-000000000001",
+        "sequence_no": 2,
+        "occurred_at": "2030-01-01T00:00:01.000Z",
+        "type": "delta",
+        "data": { "text": "A streamed answer fragment." }
+      },
+      {
+        "contract_version": 1,
+        "event_id": "00000000-0000-5000-8000-000000000012",
+        "run_id": "00000000-0000-5000-8000-000000000001",
+        "sequence_no": 3,
+        "occurred_at": "2030-01-01T00:00:02.000Z",
+        "type": "citation",
+        "data": {
+          "citation": {
+            "contract_version": 1,
+            "evidence_id": "00000000-0000-5000-8000-000000000030",
+            "knowledge_document_id": "00000000-0000-5000-8000-000000000031",
+            "knowledge_document_version_id": "00000000-0000-5000-8000-000000000032",
+            "chunk_id": "00000000-0000-5000-8000-000000000033",
+            "title": "Contract reference",
+            "quote": "A bounded citation used by every Web provider implementation.",
+            "source_document_id": "00000000-0000-5000-8000-000000000034",
+            "source_document_version_id": "00000000-0000-5000-8000-000000000035",
+            "content_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_href": "/api/citations/00000000-0000-5000-8000-000000000030/source"
+          }
+        }
+      },
+      {
+        "contract_version": 1,
+        "event_id": "00000000-0000-5000-8000-000000000013",
+        "run_id": "00000000-0000-5000-8000-000000000001",
+        "sequence_no": 4,
+        "occurred_at": "2030-01-01T00:00:03.000Z",
+        "type": "input_required",
+        "data": {
+          "action": {
+            "action_id": "00000000-0000-5000-8000-000000000020",
+            "kind": "confirmation",
+            "prompt": "Confirm and continue."
+          }
+        }
+      },
+      {
+        "contract_version": 1,
+        "event_id": "00000000-0000-5000-8000-000000000014",
+        "run_id": "00000000-0000-5000-8000-000000000001",
+        "sequence_no": 5,
+        "occurred_at": "2030-01-01T00:00:04.000Z",
+        "type": "completed",
+        "data": { "summary": "Completed." }
+      },
+      {
+        "contract_version": 1,
+        "event_id": "00000000-0000-5000-8000-000000000015",
+        "run_id": "00000000-0000-5000-8000-000000000001",
+        "sequence_no": 6,
+        "occurred_at": "2030-01-01T00:00:05.000Z",
+        "type": "failed",
+        "data": { "code": "provider_failed", "message": "The provider failed." }
+      },
+      {
+        "contract_version": 1,
+        "event_id": "00000000-0000-5000-8000-000000000016",
+        "run_id": "00000000-0000-5000-8000-000000000001",
+        "sequence_no": 7,
+        "occurred_at": "2030-01-01T00:00:06.000Z",
+        "type": "heartbeat",
+        "data": {}
+      }
+    ],
+    "actions": [
+      {
+        "contract_version": 1,
+        "action_id": "00000000-0000-5000-8000-000000000020",
+        "value": "confirm"
+      }
+    ]
+  },
+  "invalid": {
+    "snapshots": [
+      {
+        "case": "unknown-field",
+        "value": {
+          "contract_version": 1,
+          "run_id": "00000000-0000-5000-8000-000000000001",
+          "title": "Invalid",
+          "status": "running",
+          "summary": null,
+          "last_sequence_no": 0,
+          "last_event_id": null,
+          "citations": [],
+          "required_action": null,
+          "updated_at": "2030-01-01T00:00:00.000Z",
+          "extra": true
+        }
+      },
+      {
+        "case": "source-does-not-identify-evidence",
+        "value": {
+          "contract_version": 1,
+          "run_id": "00000000-0000-5000-8000-000000000001",
+          "title": "Invalid",
+          "status": "running",
+          "summary": null,
+          "last_sequence_no": 1,
+          "last_event_id": "00000000-0000-5000-8000-000000000010",
+          "citations": [
+            {
+              "contract_version": 1,
+              "evidence_id": "00000000-0000-5000-8000-000000000030",
+              "knowledge_document_id": "00000000-0000-5000-8000-000000000031",
+              "knowledge_document_version_id": "00000000-0000-5000-8000-000000000032",
+              "chunk_id": "00000000-0000-5000-8000-000000000033",
+              "title": null,
+              "quote": "Invalid source binding.",
+              "source_document_id": "00000000-0000-5000-8000-000000000034",
+              "source_document_version_id": "00000000-0000-5000-8000-000000000035",
+              "content_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "source_href": "/api/citations/00000000-0000-5000-8000-000000000099/source"
+            }
+          ],
+          "required_action": null,
+          "updated_at": "2030-01-01T00:00:00.000Z"
+        }
+      },
+      {
+        "case": "duplicate-evidence",
+        "value": {
+          "contract_version": 1,
+          "run_id": "00000000-0000-5000-8000-000000000001",
+          "title": "Invalid",
+          "status": "running",
+          "summary": null,
+          "last_sequence_no": 1,
+          "last_event_id": "00000000-0000-5000-8000-000000000010",
+          "citations": [
+            {
+              "contract_version": 1,
+              "evidence_id": "00000000-0000-5000-8000-000000000030",
+              "knowledge_document_id": "00000000-0000-5000-8000-000000000031",
+              "knowledge_document_version_id": "00000000-0000-5000-8000-000000000032",
+              "chunk_id": "00000000-0000-5000-8000-000000000033",
+              "title": null,
+              "quote": "First.",
+              "source_document_id": "00000000-0000-5000-8000-000000000034",
+              "source_document_version_id": "00000000-0000-5000-8000-000000000035",
+              "content_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "source_href": "/api/citations/00000000-0000-5000-8000-000000000030/source"
+            },
+            {
+              "contract_version": 1,
+              "evidence_id": "00000000-0000-5000-8000-000000000030",
+              "knowledge_document_id": "00000000-0000-5000-8000-000000000041",
+              "knowledge_document_version_id": "00000000-0000-5000-8000-000000000042",
+              "chunk_id": "00000000-0000-5000-8000-000000000043",
+              "title": null,
+              "quote": "Duplicate.",
+              "source_document_id": "00000000-0000-5000-8000-000000000044",
+              "source_document_version_id": "00000000-0000-5000-8000-000000000045",
+              "content_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+              "source_href": "/api/citations/00000000-0000-5000-8000-000000000030/source"
+            }
+          ],
+          "required_action": null,
+          "updated_at": "2030-01-01T00:00:00.000Z"
+        }
+      }
+    ],
+    "events": [
+      {
+        "case": "zero-sequence",
+        "value": {
+          "contract_version": 1,
+          "event_id": "00000000-0000-5000-8000-000000000010",
+          "run_id": "00000000-0000-5000-8000-000000000001",
+          "sequence_no": 0,
+          "occurred_at": "2030-01-01T00:00:00.000Z",
+          "type": "heartbeat",
+          "data": {}
+        }
+      },
+      {
+        "case": "unknown-event-field",
+        "value": {
+          "contract_version": 1,
+          "event_id": "00000000-0000-5000-8000-000000000010",
+          "run_id": "00000000-0000-5000-8000-000000000001",
+          "sequence_no": 1,
+          "occurred_at": "2030-01-01T00:00:00.000Z",
+          "type": "heartbeat",
+          "data": {},
+          "extra": true
+        }
+      }
+    ],
+    "actions": [
+      {
+        "case": "unknown-action-field",
+        "value": {
+          "contract_version": 1,
+          "action_id": "00000000-0000-5000-8000-000000000020",
+          "value": "confirm",
+          "extra": true
+        }
+      }
+    ]
+  }
+}
