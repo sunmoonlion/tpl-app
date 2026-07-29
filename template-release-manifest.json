@@ -71,12 +71,12 @@
     },
     {
       "module": "tpl-web-frontend",
-      "commit": "1db9377d38dac5510331149d9122f8d375d83fe3",
+      "commit": "f69d02c69007349eed6ab94bf69a453680cad455",
       "release_class": "DEFAULT",
       "role": "next-web",
       "pair": "next-web-fastapi-web",
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-frontend:p0-008b-b63-candidate-20260729-r3",
-      "digest": "sha256:2a359c8d213813ecbc3b5dbf6a6ed828e73a4c26b6dffaa1d163a507756db2b3",
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-frontend:1.0.0",
+      "digest": "sha256:c848bee9b5e3d852c8c5adfc36f66d4ac86d909030120f354bfece88b141bd78",
       "clean_room": {
         "install": "passed",
         "typecheck": "passed",
@@ -85,7 +85,7 @@
         "unit": "passed",
         "build": "passed"
       },
-      "image_ref": "tpl-web-frontend@sha256:2a359c8d213813ecbc3b5dbf6a6ed828e73a4c26b6dffaa1d163a507756db2b3"
+      "image_ref": "tpl-web-frontend@sha256:c848bee9b5e3d852c8c5adfc36f66d4ac86d909030120f354bfece88b141bd78"
     },
     {
       "module": "tpl-web-backend",
