@@ -14,7 +14,7 @@
       "tpl-web-backend-nest"
     ],
     "business_app_sync": "p0_009_serial_adoption_complete",
-    "remote_git_push": "not_performed",
+    "remote_git_push": "performed_2026-07-29",
     "p0_009a": {
       "status": "ACCEPTED",
       "pre_migration_tag": "p0-009a-pre-20260729",
