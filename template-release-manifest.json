@@ -1,0 +1,163 @@
+{
+  "template_release_id": "p0-008b-b6-unified-20260729",
+  "task": "V5-P0-008B/B6.4",
+  "policy": {
+    "default_release_components": [
+      "tpl-admin-frontend",
+      "tpl-admin-backend",
+      "tpl-web-frontend",
+      "tpl-web-backend"
+    ],
+    "non_default_profiles": [
+      "tpl-admin-frontend-react",
+      "tpl-admin-frontend-vue",
+      "tpl-web-backend-nest"
+    ],
+    "business_app_sync": "p0_009_serial_adoption_complete",
+    "remote_git_push": "not_performed",
+    "p0_009a": {
+      "status": "ACCEPTED",
+      "pre_migration_tag": "p0-009a-pre-20260729",
+      "evidence": "k8s/sunmoonai/docs/evidence/v5/V5-P0-009A/freeze.json",
+      "next": "P0-009B"
+    },
+    "p0_009": {
+      "status": "ACCEPTED",
+      "convergence_evidence": "k8s/sunmoonai/docs/evidence/v5/V5-P0-009E/convergence.json",
+      "alignment_lock": "k8s/sunmoonai/docs/evidence/v5/V5-P0-009E/alignment-lock.json",
+      "traffic_cutover": false,
+      "next": "P0-008C"
+    },
+    "recovery_boundaries": {
+      "react-router-admin-fastapi-admin": "REFERENCE_ONLY; restore via P0-007D digests; never default release",
+      "vue-admin-fastapi-admin": "REFERENCE_ONLY; restore via B6.2 digests; never P0-009 propagation",
+      "next-web-nest-web": "OPTIONAL; restore via B6.3N digests; FastAPI remains default Web BFF"
+    }
+  },
+  "default_components": [
+    {
+      "module": "tpl-admin-frontend",
+      "commit": "fb69795b04e0b888a2917c3936f7f80aeac79cc9",
+      "release_class": "DEFAULT",
+      "role": "next-admin",
+      "pair": "next-admin-fastapi-admin",
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend:p0-007e-next-accepted-20260728",
+      "digest": "sha256:b426551c0e027b25965995e23486c590c29fa52047779dd14721d93a245a74f1",
+      "clean_room": {
+        "install": "passed",
+        "typecheck": "passed",
+        "lint": "passed",
+        "i18n": "passed",
+        "unit": "passed",
+        "build": "passed"
+      },
+      "image_ref": "tpl-admin-frontend@sha256:b426551c0e027b25965995e23486c590c29fa52047779dd14721d93a245a74f1"
+    },
+    {
+      "module": "tpl-admin-backend",
+      "commit": "69e634b8e5b06da9d1dcd01c9b1350e0571d74bd",
+      "release_class": "DEFAULT",
+      "role": "fastapi-admin",
+      "pair": "next-admin-fastapi-admin",
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-backend:p0-007e-e3-r2-20260728",
+      "digest": "sha256:b24ce7a39e7e10a5541b2a29ff9795a6944d6f17ec4d0479e2051f59a0688c56",
+      "clean_room": {
+        "install": "passed",
+        "ruff": "passed",
+        "format": "tool_skew_recorded",
+        "unit": "passed"
+      },
+      "image_ref": "tpl-admin-backend@sha256:b24ce7a39e7e10a5541b2a29ff9795a6944d6f17ec4d0479e2051f59a0688c56"
+    },
+    {
+      "module": "tpl-web-frontend",
+      "commit": "1db9377d38dac5510331149d9122f8d375d83fe3",
+      "release_class": "DEFAULT",
+      "role": "next-web",
+      "pair": "next-web-fastapi-web",
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-frontend:p0-008b-b63-candidate-20260729-r3",
+      "digest": "sha256:2a359c8d213813ecbc3b5dbf6a6ed828e73a4c26b6dffaa1d163a507756db2b3",
+      "clean_room": {
+        "install": "passed",
+        "typecheck": "passed",
+        "lint": "passed",
+        "i18n": "passed",
+        "unit": "passed",
+        "build": "passed"
+      },
+      "image_ref": "tpl-web-frontend@sha256:2a359c8d213813ecbc3b5dbf6a6ed828e73a4c26b6dffaa1d163a507756db2b3"
+    },
+    {
+      "module": "tpl-web-backend",
+      "commit": "289f2c46410e0aa2891fdf3da28242ceb1a33bdb",
+      "release_class": "DEFAULT",
+      "role": "fastapi-web",
+      "pair": "next-web-fastapi-web",
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-backend:p0-008b-b63-candidate-20260729",
+      "digest": "sha256:41dc3a781033dda3e60cd3594ffac7caf767e3c8cb2295ac0b8a21986fbd2414",
+      "clean_room": {
+        "install": "passed",
+        "ruff": "passed",
+        "format": "passed",
+        "unit": "passed"
+      },
+      "image_ref": "tpl-web-backend@sha256:41dc3a781033dda3e60cd3594ffac7caf767e3c8cb2295ac0b8a21986fbd2414"
+    }
+  ],
+  "non_default_profiles": [
+    {
+      "module": "tpl-admin-frontend-react",
+      "commit": "0b58adc4035d2b695646b0700dfc2fb707d14b57",
+      "release_class": "REFERENCE_ONLY",
+      "role": "react-router-admin",
+      "pair": "react-router-admin-fastapi-admin",
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend:p0-007d-react-legacy-v2-compat-20260728",
+      "digest": "sha256:358f24459dcf62b52cd10fcb84a0fa2ac6432d5b96dff2b07d279bc3f98759e2",
+      "clean_room": {
+        "install": "passed",
+        "typecheck": "passed",
+        "lint": "passed",
+        "unit": "passed",
+        "verify_production": "passed",
+        "build": "passed"
+      },
+      "image_ref": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend@sha256:358f24459dcf62b52cd10fcb84a0fa2ac6432d5b96dff2b07d279bc3f98759e2"
+    },
+    {
+      "module": "tpl-admin-frontend-vue",
+      "commit": "9b3d29b8913989970f3da5093ee84d4f7d4cdfcf",
+      "release_class": "REFERENCE_ONLY",
+      "role": "vue-admin",
+      "pair": "vue-admin-fastapi-admin",
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend-vue:b6-reference-20260728",
+      "digest": "sha256:5380b1b56b3c6f0c825b2e0a2df03b0e23517eb8de6d440edccbe2579b738a57",
+      "clean_room": {
+        "install": "passed",
+        "typecheck": "passed",
+        "lint": "passed",
+        "unit": "passed",
+        "build": "passed"
+      },
+      "image_ref": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend-vue@sha256:5380b1b56b3c6f0c825b2e0a2df03b0e23517eb8de6d440edccbe2579b738a57"
+    },
+    {
+      "module": "tpl-web-backend-nest",
+      "commit": "ecb01d97e13cf86f27e09e77edf9663dcefd3fb7",
+      "release_class": "OPTIONAL",
+      "role": "nest-web",
+      "pair": "next-web-nest-web",
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-backend-nest:p0-008b-b63-candidate-20260729",
+      "digest": "sha256:8d17b350df03968c4a847a4f089a2145e3ba326cdbb16db1f2996146cb359536",
+      "clean_room": {
+        "install": "passed",
+        "typecheck": "passed",
+        "lint": "passed",
+        "unit": "passed",
+        "e2e": "passed",
+        "build": "passed"
+      },
+      "image_ref": "tpl-web-backend-nest@sha256:8d17b350df03968c4a847a4f089a2145e3ba326cdbb16db1f2996146cb359536"
+    }
+  ],
+  "pairing_matrix": "tpl-app/frontend-pairing-matrix.json"
+}

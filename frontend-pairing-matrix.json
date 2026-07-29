@@ -31,7 +31,7 @@
       "frontend": "tpl-web-frontend",
       "backend": "tpl-web-backend",
       "release_class": "DEFAULT",
-      "status": "IN_PROGRESS",
+      "status": "ACCEPTED",
       "gate": "V5-P0-008B-B6.3"
     },
     {
@@ -39,7 +39,7 @@
       "frontend": "tpl-web-frontend",
       "backend": "tpl-web-backend-nest",
       "release_class": "OPTIONAL",
-      "status": "REVALIDATION_REQUIRED",
+      "status": "ACCEPTED",
       "gate": "V5-P0-008B-B6.3"
     }
   ]
