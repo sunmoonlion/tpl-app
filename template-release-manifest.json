@@ -1,163 +1,136 @@
 {
-  "template_release_id": "p0-008b-b6-unified-20260729",
-  "task": "V5-P0-008B/B6.4",
-  "policy": {
-    "default_release_components": [
-      "tpl-admin-frontend",
-      "tpl-admin-backend",
-      "tpl-web-frontend",
-      "tpl-web-backend"
-    ],
-    "non_default_profiles": [
-      "tpl-admin-frontend-react",
-      "tpl-admin-frontend-vue",
-      "tpl-web-backend-nest"
-    ],
-    "business_app_sync": "p0_009_serial_adoption_complete",
-    "remote_git_push": "performed_2026-07-29",
-    "p0_009a": {
-      "status": "ACCEPTED",
-      "pre_migration_tag": "p0-009a-pre-20260729",
-      "evidence": "k8s/sunmoonai/docs/evidence/v5/V5-P0-009A/freeze.json",
-      "next": "P0-009B"
-    },
-    "p0_009": {
-      "status": "ACCEPTED",
-      "convergence_evidence": "k8s/sunmoonai/docs/evidence/v5/V5-P0-009E/convergence.json",
-      "alignment_lock": "k8s/sunmoonai/docs/evidence/v5/V5-P0-009E/alignment-lock.json",
-      "traffic_cutover": false,
-      "next": "P0-008C"
-    },
-    "recovery_boundaries": {
-      "react-router-admin-fastapi-admin": "REFERENCE_ONLY; restore via P0-007D digests; never default release",
-      "vue-admin-fastapi-admin": "REFERENCE_ONLY; restore via B6.2 digests; never P0-009 propagation",
-      "next-web-nest-web": "OPTIONAL; restore via B6.3N digests; FastAPI remains default Web BFF"
-    }
+  "schema_version": 2,
+  "architecture": "app-platform-v2",
+  "template_release": "architecture-v2-r3-20260801",
+  "status": "R3_ACCEPTED_R4_SOURCE",
+  "formal_release": false,
+  "target_formal_version": "2.0.0",
+  "source": {
+    "repository": "tpl-app",
+    "branch": "architecture-v2",
+    "commit": "90fea5c0804e9f33c4de12d70078993c2974c678",
+    "tree": "25d444cbdebd543b7fe611ff91a352561fed61bd",
+    "pre_refactor_tag": "pre-architecture-v2-20260801"
   },
   "default_components": [
     {
-      "module": "tpl-admin-frontend",
-      "commit": "fb69795b04e0b888a2917c3936f7f80aeac79cc9",
-      "release_class": "DEFAULT",
+      "path": "tpl-backend",
+      "role": "canonical-fastapi-backend",
+      "commit": "8997e9e9422fd5fefaff6ab3519bd0367075fdb0",
+      "tree": "b108acab7b843b8b6b488a6b6952c1ab303d5fb3",
+      "tracked_files": 146,
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-backend@sha256:131793e27f5782511b7e6f8ce4c688639f9c2d460fe57fbe1ea805989ca481f1"
+    },
+    {
+      "path": "tpl-admin-frontend",
       "role": "next-admin",
-      "pair": "next-admin-fastapi-admin",
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend:p0-007e-next-accepted-20260728",
-      "digest": "sha256:b426551c0e027b25965995e23486c590c29fa52047779dd14721d93a245a74f1",
-      "clean_room": {
-        "install": "passed",
-        "typecheck": "passed",
-        "lint": "passed",
-        "i18n": "passed",
-        "unit": "passed",
-        "build": "passed"
-      },
-      "image_ref": "tpl-admin-frontend@sha256:b426551c0e027b25965995e23486c590c29fa52047779dd14721d93a245a74f1"
+      "commit": "f993e1211b1a1a1d0029aeefa4c7044e32137275",
+      "tree": "ccc15836fcb10555ced173c8b374483f29d6785f",
+      "tracked_files": 122,
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend@sha256:84c8343f57ae2475cc11bd871379bb7b506ed2b81b474a20affcc9249a6c5f81"
     },
     {
-      "module": "tpl-admin-backend",
-      "commit": "69e634b8e5b06da9d1dcd01c9b1350e0571d74bd",
-      "release_class": "DEFAULT",
-      "role": "fastapi-admin",
-      "pair": "next-admin-fastapi-admin",
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-backend:p0-007e-e3-r2-20260728",
-      "digest": "sha256:b24ce7a39e7e10a5541b2a29ff9795a6944d6f17ec4d0479e2051f59a0688c56",
-      "clean_room": {
-        "install": "passed",
-        "ruff": "passed",
-        "format": "tool_skew_recorded",
-        "unit": "passed"
-      },
-      "image_ref": "tpl-admin-backend@sha256:b24ce7a39e7e10a5541b2a29ff9795a6944d6f17ec4d0479e2051f59a0688c56"
-    },
-    {
-      "module": "tpl-web-frontend",
-      "commit": "f69d02c69007349eed6ab94bf69a453680cad455",
-      "release_class": "DEFAULT",
+      "path": "tpl-web-frontend",
       "role": "next-web",
-      "pair": "next-web-fastapi-web",
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-frontend:1.0.0",
-      "digest": "sha256:c848bee9b5e3d852c8c5adfc36f66d4ac86d909030120f354bfece88b141bd78",
-      "clean_room": {
-        "install": "passed",
-        "typecheck": "passed",
-        "lint": "passed",
-        "i18n": "passed",
-        "unit": "passed",
-        "build": "passed"
-      },
-      "image_ref": "tpl-web-frontend@sha256:c848bee9b5e3d852c8c5adfc36f66d4ac86d909030120f354bfece88b141bd78"
-    },
-    {
-      "module": "tpl-web-backend",
-      "commit": "289f2c46410e0aa2891fdf3da28242ceb1a33bdb",
-      "release_class": "DEFAULT",
-      "role": "fastapi-web",
-      "pair": "next-web-fastapi-web",
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-backend:p0-008b-b63-candidate-20260729",
-      "digest": "sha256:41dc3a781033dda3e60cd3594ffac7caf767e3c8cb2295ac0b8a21986fbd2414",
-      "clean_room": {
-        "install": "passed",
-        "ruff": "passed",
-        "format": "passed",
-        "unit": "passed"
-      },
-      "image_ref": "tpl-web-backend@sha256:41dc3a781033dda3e60cd3594ffac7caf767e3c8cb2295ac0b8a21986fbd2414"
+      "commit": "e07b12136998bd3989a6cfb70573d792dad2b2df",
+      "tree": "b5706c41ae6fa2410a1760772cf682d68f6c5ea9",
+      "tracked_files": 98,
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-frontend@sha256:54c62d90c833b4577d304b79cffef63c980b39c98262bbf082546839added33d"
     }
   ],
-  "non_default_profiles": [
+  "kubernetes_scaffold": {
+    "path": "k8s-scaffold-v2",
+    "tree": "b004f54820a9490334794cd9999df7b2a3ba9550",
+    "tracked_files": 10,
+    "release_schema_version": 1,
+    "deployment_order": [
+      "prerequisites-secret-network-policy",
+      "migration",
+      "runtime",
+      "ingress"
+    ]
+  },
+  "common_file_manifest": {
+    "format": "git-tree-v1",
+    "policy": "sync each complete locked component tree, then reapply only classified domain extensions",
+    "source_components": [
+      "tpl-backend",
+      "tpl-admin-frontend",
+      "tpl-web-frontend",
+      "k8s-scaffold-v2"
+    ],
+    "allowed_difference_classes": [
+      "domain-extension",
+      "deployment-config",
+      "temporary-compatibility"
+    ],
+    "forbidden_difference_class": "prohibited-drift"
+  },
+  "contract_versions": {
+    "backend_api": "v1",
+    "admin_auth_surface": "admin-v1",
+    "web_auth_surface": "web-v1",
+    "database_migration_head": "20260801_0002",
+    "kubernetes_bundle": 1
+  },
+  "runtime_roles": [
+    "api",
+    "worker",
+    "scheduler",
+    "migration"
+  ],
+  "identity_policy": {
+    "shared_backend": true,
+    "separate_oidc_clients": true,
+    "separate_cookie_names": true,
+    "separate_session_namespaces": true,
+    "separate_scope_and_origin_policies": true
+  },
+  "database_policy": {
+    "one_database_owner_per_app": true,
+    "separate_runtime_principals": [
+      "migration",
+      "api",
+      "worker",
+      "scheduler"
+    ]
+  },
+  "optional_capabilities": [
     {
-      "module": "tpl-admin-frontend-react",
-      "commit": "0b58adc4035d2b695646b0700dfc2fb707d14b57",
-      "release_class": "REFERENCE_ONLY",
-      "role": "react-router-admin",
-      "pair": "react-router-admin-fastapi-admin",
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend:p0-007d-react-legacy-v2-compat-20260728",
-      "digest": "sha256:358f24459dcf62b52cd10fcb84a0fa2ac6432d5b96dff2b07d279bc3f98759e2",
-      "clean_room": {
-        "install": "passed",
-        "typecheck": "passed",
-        "lint": "passed",
-        "unit": "passed",
-        "verify_production": "passed",
-        "build": "passed"
-      },
-      "image_ref": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend@sha256:358f24459dcf62b52cd10fcb84a0fa2ac6432d5b96dff2b07d279bc3f98759e2"
+      "path": "tpl-admin-frontend-react",
+      "class": "REFERENCE_ONLY",
+      "commit": "0b58adc4035d2b695646b0700dfc2fb707d14b57"
     },
     {
-      "module": "tpl-admin-frontend-vue",
-      "commit": "9b3d29b8913989970f3da5093ee84d4f7d4cdfcf",
-      "release_class": "REFERENCE_ONLY",
-      "role": "vue-admin",
-      "pair": "vue-admin-fastapi-admin",
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend-vue:b6-reference-20260728",
-      "digest": "sha256:5380b1b56b3c6f0c825b2e0a2df03b0e23517eb8de6d440edccbe2579b738a57",
-      "clean_room": {
-        "install": "passed",
-        "typecheck": "passed",
-        "lint": "passed",
-        "unit": "passed",
-        "build": "passed"
-      },
-      "image_ref": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend-vue@sha256:5380b1b56b3c6f0c825b2e0a2df03b0e23517eb8de6d440edccbe2579b738a57"
+      "path": "tpl-admin-frontend-vue",
+      "class": "REFERENCE_ONLY",
+      "commit": "9b3d29b8913989970f3da5093ee84d4f7d4cdfcf"
     },
     {
-      "module": "tpl-web-backend-nest",
-      "commit": "ecb01d97e13cf86f27e09e77edf9663dcefd3fb7",
-      "release_class": "OPTIONAL",
-      "role": "nest-web",
-      "pair": "next-web-nest-web",
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-backend-nest:p0-008b-b63-candidate-20260729",
-      "digest": "sha256:8d17b350df03968c4a847a4f089a2145e3ba326cdbb16db1f2996146cb359536",
-      "clean_room": {
-        "install": "passed",
-        "typecheck": "passed",
-        "lint": "passed",
-        "unit": "passed",
-        "e2e": "passed",
-        "build": "passed"
-      },
-      "image_ref": "tpl-web-backend-nest@sha256:8d17b350df03968c4a847a4f089a2145e3ba326cdbb16db1f2996146cb359536"
+      "path": "tpl-web-backend",
+      "class": "ROLLBACK_ONLY",
+      "commit": "289f2c46410e0aa2891fdf3da28242ceb1a33bdb"
+    },
+    {
+      "path": "tpl-web-backend-nest",
+      "class": "OPTIONAL_REFERENCE",
+      "commit": "ecb01d97e13cf86f27e09e77edf9663dcefd3fb7"
     }
   ],
-  "pairing_matrix": "tpl-app/frontend-pairing-matrix.json"
+  "test_evidence": {
+    "R2": "k8s/sunmoonai/docs/architecture-v2/R2-template-backend-result.md",
+    "R3": "k8s/sunmoonai/docs/architecture-v2/R3-kubernetes-template-result.md",
+    "R3_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3-template-gate"
+  },
+  "release_policy": {
+    "r4_sync_order": [
+      "info",
+      "knowledge",
+      "research"
+    ],
+    "business_changes_before_r4_complete": false,
+    "mutable_image_tags_allowed": false,
+    "overwrite_v1_1_0_0": false,
+    "promote_to_2_0_0_before_r7": false
+  }
 }
