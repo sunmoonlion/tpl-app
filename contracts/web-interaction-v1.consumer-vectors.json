@@ -23,7 +23,7 @@
             "source_document_id": "00000000-0000-5000-8000-000000000034",
             "source_document_version_id": "00000000-0000-5000-8000-000000000035",
             "content_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-            "source_href": "/api/citations/00000000-0000-5000-8000-000000000030/source"
+            "source_href": "/api/web/v1/citations/00000000-0000-5000-8000-000000000030/source"
           }
         ],
         "required_action": {
@@ -72,7 +72,7 @@
             "source_document_id": "00000000-0000-5000-8000-000000000034",
             "source_document_version_id": "00000000-0000-5000-8000-000000000035",
             "content_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-            "source_href": "/api/citations/00000000-0000-5000-8000-000000000030/source"
+            "source_href": "/api/web/v1/citations/00000000-0000-5000-8000-000000000030/source"
           }
         }
       },
@@ -167,7 +167,7 @@
               "source_document_id": "00000000-0000-5000-8000-000000000034",
               "source_document_version_id": "00000000-0000-5000-8000-000000000035",
               "content_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-              "source_href": "/api/citations/00000000-0000-5000-8000-000000000099/source"
+              "source_href": "/api/web/v1/citations/00000000-0000-5000-8000-000000000099/source"
             }
           ],
           "required_action": null,
@@ -196,7 +196,7 @@
               "source_document_id": "00000000-0000-5000-8000-000000000034",
               "source_document_version_id": "00000000-0000-5000-8000-000000000035",
               "content_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-              "source_href": "/api/citations/00000000-0000-5000-8000-000000000030/source"
+              "source_href": "/api/web/v1/citations/00000000-0000-5000-8000-000000000030/source"
             },
             {
               "contract_version": 1,
@@ -209,7 +209,7 @@
               "source_document_id": "00000000-0000-5000-8000-000000000044",
               "source_document_version_id": "00000000-0000-5000-8000-000000000045",
               "content_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-              "source_href": "/api/citations/00000000-0000-5000-8000-000000000030/source"
+              "source_href": "/api/web/v1/citations/00000000-0000-5000-8000-000000000030/source"
             }
           ],
           "required_action": null,
