@@ -1,15 +1,15 @@
 {
   "schema_version": 2,
   "architecture": "app-platform-v2",
-  "template_release": "architecture-v2-r3-20260801",
-  "status": "R3_ACCEPTED_R4_SOURCE",
+  "template_release": "architecture-v2-r3.1-20260808",
+  "status": "R3_REVALIDATED_R4_SOURCE",
   "formal_release": false,
   "target_formal_version": "2.0.0",
   "source": {
     "repository": "tpl-app",
     "branch": "architecture-v2",
-    "commit": "90fea5c0804e9f33c4de12d70078993c2974c678",
-    "tree": "25d444cbdebd543b7fe611ff91a352561fed61bd",
+    "commit": "39b5989a7d2df1f22d91d912880dae6bb2a294ee",
+    "tree": "d18a41c730d901a8ffa4c009ec1336b9ac89e257",
     "pre_refactor_tag": "pre-architecture-v2-20260801"
   },
   "default_components": [
@@ -24,18 +24,18 @@
     {
       "path": "tpl-admin-frontend",
       "role": "next-admin",
-      "commit": "f993e1211b1a1a1d0029aeefa4c7044e32137275",
-      "tree": "ccc15836fcb10555ced173c8b374483f29d6785f",
-      "tracked_files": 122,
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend@sha256:84c8343f57ae2475cc11bd871379bb7b506ed2b81b474a20affcc9249a6c5f81"
+      "commit": "965251265b46f5c40620cdef3c8fe167d55a8df0",
+      "tree": "69311ce8a405a4f80e7541155af861b2dcb68f3c",
+      "tracked_files": 123,
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend@sha256:cd2b91f54d71586b69c7f3d558066fb8afecf8a701911951076aa3ea5b30ea6b"
     },
     {
       "path": "tpl-web-frontend",
       "role": "next-web",
-      "commit": "e07b12136998bd3989a6cfb70573d792dad2b2df",
-      "tree": "b5706c41ae6fa2410a1760772cf682d68f6c5ea9",
-      "tracked_files": 98,
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-frontend@sha256:54c62d90c833b4577d304b79cffef63c980b39c98262bbf082546839added33d"
+      "commit": "024dda1d0d06ecbbb72434c7e0203496390b065d",
+      "tree": "f88d7717c6108dc2846fbf534907dfac6586bf35",
+      "tracked_files": 99,
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-frontend@sha256:c83b69fc82a21befc0bee82c2f076bc18f65418f6f3240ce04eb0430bbf4476c"
     }
   ],
   "kubernetes_scaffold": {
@@ -120,7 +120,9 @@
   "test_evidence": {
     "R2": "k8s/sunmoonai/docs/architecture-v2/R2-template-backend-result.md",
     "R3": "k8s/sunmoonai/docs/architecture-v2/R3-kubernetes-template-result.md",
-    "R3_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3-template-gate"
+    "R3_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3-template-gate",
+    "R3_1": "k8s/sunmoonai/docs/architecture-v2/R3.1-template-revalidation-result.md",
+    "R3_1_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3.1-template-gate"
   },
   "release_policy": {
     "r4_sync_order": [
