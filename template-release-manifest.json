@@ -1,15 +1,15 @@
 {
   "schema_version": 2,
   "architecture": "app-platform-v2",
-  "template_release": "architecture-v2-r3.1-20260808",
+  "template_release": "architecture-v2-r3.2-20260808",
   "status": "R3_REVALIDATED_R4_SOURCE",
   "formal_release": false,
   "target_formal_version": "2.0.0",
   "source": {
     "repository": "tpl-app",
     "branch": "architecture-v2",
-    "commit": "39b5989a7d2df1f22d91d912880dae6bb2a294ee",
-    "tree": "d18a41c730d901a8ffa4c009ec1336b9ac89e257",
+    "commit": "09f60f7d5455b6af5ea0587c012fe2c323b4ad06",
+    "tree": "bed9b0bb9974a86d7b4037895168e5d89c233899",
     "pre_refactor_tag": "pre-architecture-v2-20260801"
   },
   "default_components": [
@@ -24,18 +24,18 @@
     {
       "path": "tpl-admin-frontend",
       "role": "next-admin",
-      "commit": "965251265b46f5c40620cdef3c8fe167d55a8df0",
-      "tree": "69311ce8a405a4f80e7541155af861b2dcb68f3c",
+      "commit": "798203a31ead431aa93e761109c46e0b0e4aed3c",
+      "tree": "11eb41dbf57481ba9b1d51ef75512d06bce4a725",
       "tracked_files": 123,
       "image": "harbor.sunmoonai.com:30443/app-images/tpl-admin-frontend@sha256:cd2b91f54d71586b69c7f3d558066fb8afecf8a701911951076aa3ea5b30ea6b"
     },
     {
       "path": "tpl-web-frontend",
       "role": "next-web",
-      "commit": "024dda1d0d06ecbbb72434c7e0203496390b065d",
-      "tree": "f88d7717c6108dc2846fbf534907dfac6586bf35",
+      "commit": "e56965af03ac583c30ef648fe11e85700af0f2b9",
+      "tree": "55e4ecc496b5bded277ed6329c8f2dbb67b6d7b0",
       "tracked_files": 99,
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-frontend@sha256:c83b69fc82a21befc0bee82c2f076bc18f65418f6f3240ce04eb0430bbf4476c"
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-web-frontend@sha256:a835b1d4dcb8b405233fc901c11452f26f971b9d21c679e3cdee6c0d9bfbf729"
     }
   ],
   "kubernetes_scaffold": {
@@ -122,7 +122,9 @@
     "R3": "k8s/sunmoonai/docs/architecture-v2/R3-kubernetes-template-result.md",
     "R3_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3-template-gate",
     "R3_1": "k8s/sunmoonai/docs/architecture-v2/R3.1-template-revalidation-result.md",
-    "R3_1_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3.1-template-gate"
+    "R3_1_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3.1-template-gate",
+    "R3_2": "k8s/sunmoonai/docs/architecture-v2/R3.2-template-revalidation-result.md",
+    "R3_2_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3.2-template-gate"
   },
   "release_policy": {
     "r4_sync_order": [
