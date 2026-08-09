@@ -115,6 +115,10 @@ data:
   REFERENCE_INTERACTION_ENABLED: "false"
   SERVICE_AUTH_SUBJECT_BINDINGS_JSON: "{}"
   CELERY_QUEUE: __APP__.default
+  # Never inherit Celery's CPU-count prefork default inside a memory-limited
+  # container. Increase this only together with worker memory/load evidence;
+  # horizontal scaling remains the primary Kubernetes capacity mechanism.
+  CELERY_WORKER_CONCURRENCY: "2"
 ---
 apiVersion: v1
 kind: ConfigMap

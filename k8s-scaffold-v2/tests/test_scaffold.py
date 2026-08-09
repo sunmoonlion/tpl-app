@@ -59,6 +59,12 @@ class ScaffoldTest(unittest.TestCase):
             self.assertIn("demo-backend-api", all_yaml)
             self.assertIn("demo-admin-frontend", all_yaml)
             self.assertIn("demo-web-frontend", all_yaml)
+            prerequisites = (output / "00-prerequisites.yaml").read_text()
+            runtime = (output / "20-runtime.yaml").read_text()
+            self.assertIn('CELERY_WORKER_CONCURRENCY: "2"', prerequisites)
+            self.assertIn(
+                '--concurrency="${CELERY_WORKER_CONCURRENCY}"', runtime
+            )
             policies = (output / "30-network-policies.yaml").read_text()
             self.assertIn("kubernetes.io/metadata.name: identity-system", policies)
             self.assertIn("app: casdoor-sunmoonai", policies)

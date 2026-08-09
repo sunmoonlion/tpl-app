@@ -233,7 +233,7 @@ spec:
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-ec"]
           args:
-            - exec celery -A app.bootstrap.worker:celery_app worker --loglevel=INFO --hostname="celery@${POD_NAME}"
+            - exec celery -A app.bootstrap.worker:celery_app worker --loglevel=INFO --concurrency="${CELERY_WORKER_CONCURRENCY}" --hostname="celery@${POD_NAME}"
           envFrom:
             - configMapRef:
                 name: __APP__-backend-config
