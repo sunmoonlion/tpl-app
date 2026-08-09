@@ -1,8 +1,8 @@
 # Architecture v2 Kubernetes scaffold
 
-本目录是统一 Backend 架构的规范 Kubernetes 脚手架。旧 `k8s-scaffold/`、
-`celeryworker-tpl-admin-backend/` 和 `nodebullworker-tpl-web-backend/` 仅保留 v1 回滚，
-不得用于 Architecture v2 实例。
+本目录是统一 Backend 架构唯一活动的 Kubernetes 脚手架。旧 `k8s-scaffold/`、
+`celeryworker-*` 和 `nodebullworker-*` 已从模板当前分支移除；历史提交和冻结标签仅供回滚，
+不得重新复制进 Architecture v2 实例。
 
 它生成一个 App 的以下运行角色：
 

@@ -1,11 +1,11 @@
 ---
-description: tpl-app 模板仓库全局协作规则（四子模块父仓）
+description: tpl-app Architecture v2 三组件模板仓库全局协作规则
 alwaysApply: true
 ---
 
 # tpl-app 全局规则
 
-本仓库是**父模板仓**，聚合四个 Git 子模块；执行 `init.sh` 后子目录会变为 `<项目名>-admin-frontend` 等。规则中的路径类 glob 使用 `*admin-backend` 等形式，以便初始化后仍尽量匹配。
+本仓库是**父模板仓**，默认聚合统一 FastAPI Backend 与两个 Next.js 前端。API、Worker、Scheduler、Migration 是同一 Backend 镜像的运行角色，不是独立源码组件。执行 `init.sh` 后三个活动子模块会变为 `<项目名>-backend`、`<项目名>-admin-frontend` 和 `<项目名>-web-frontend`。
 
 - 目标优先级：先跑通主链路，再做重构和升级。
 - 每次改动都要可验证：提供启动步骤、验证命令、预期结果。

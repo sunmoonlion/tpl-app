@@ -10,11 +10,11 @@
 
 ## 工作边界
 
-- 模板只接收通用能力，不接收 Info、Knowledge、Research 领域代码。
+- 模板只接收通用能力，不接收 Info、Knowledge、Investment 领域代码。
 - 接口事实来自代码/OpenAPI/schema 和 contract tests，不维护手写的第二份权威契约。
 - 任何时刻只推进实施计划中一个已激活任务；代码、测试、证据和状态回填齐全后再进入下一项。
 - 不输出或提交 token、cookie、client secret、signed URL、真实凭据或完整敏感响应。
-- 安装、网络构建和 Git push 由项目负责人执行；本地提交和验证必须可追溯。
+- 安装、网络构建和 Git push 只有在当前会话权限或负责人明确授权时执行；提交和验证必须可追溯。
 
 ## 文档规则
 

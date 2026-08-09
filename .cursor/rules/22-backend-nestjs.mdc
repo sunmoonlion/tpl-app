@@ -1,10 +1,12 @@
 ---
-description: 用户端 BFF NestJS（tpl-web-backend）
-globs: **/*web-backend/**/*.ts
+description: 可选 NestJS 参考实现（tpl-web-backend-nest，不进入默认实例）
+globs: **/*web-backend-nest/**/*.ts
 alwaysApply: false
 ---
 
-# 后端 NestJS（用户端 BFF）
+# 可选 NestJS 参考实现
+
+本目录只供对照或独立选型，不进入 Architecture v2 默认实例化、镜像发布或 K8s 运行拓扑。
 
 - 兼容优先：保持模块边界与对外 API 契约稳定；与 Casdoor OIDC 相关配置走环境变量。
 - DTO 与校验：入参使用 class-validator/class-transformer（若项目已采用），与前端字段对齐。
