@@ -8,16 +8,16 @@
   "source": {
     "repository": "tpl-app",
     "branch": "architecture-v2",
-    "commit": "069b89c4eb7693db8f603755d07f9d21a1e66787",
-    "tree": "c7d975604d24a7255e41782f67cc6b4ddd293dbb",
+    "commit": "1c5579304cceb74eb15a58ac2a0f41ba61a412cd",
+    "tree": "d7dcca19dc22bfc2e884b20faada712c3e18f5ec",
     "pre_refactor_tag": "pre-architecture-v2-20260801"
   },
   "default_components": [
     {
       "path": "tpl-backend",
       "role": "canonical-fastapi-backend",
-      "commit": "75a17f94567beb70fbf412829827152f772c98fd",
-      "tree": "49b46cb9f63f67fe25b3b5853c4de36fdc794417",
+      "commit": "2d3c27faf0f475ce0c02fef2aa2c8399f299da1a",
+      "tree": "bd9c374977168413955b75fdad383217d58ac683",
       "tracked_files": 146,
       "image": "harbor.sunmoonai.com:30443/app-images/tpl-backend@sha256:8b504098427ab5349a04e933e1fdf71e3a8fc11ce0f5b36fff703ad356bad348"
     },
@@ -40,8 +40,8 @@
   ],
   "kubernetes_scaffold": {
     "path": "k8s-deployment",
-    "tree": "4cc870e40b45ae2bbc2aca89f4f75e0453c2d491",
-    "tracked_files": 10,
+    "tree": "ab75eb3083906666648a4a59b43ff8cd18465403",
+    "tracked_files": 11,
     "release_schema_version": 1,
     "deployment_order": [
       "prerequisites-secret-network-policy",
@@ -139,7 +139,7 @@
     "overwrite_v1_1_0_0": false,
     "formal_version": "2.0.0",
     "promotion_method": "exact-digest-alias",
-    "observation_window": "active",
-    "irreversible_v1_cleanup_allowed": false
+    "observation_window": "closed",
+    "irreversible_v1_cleanup_allowed": true
   }
 }
