@@ -1,25 +1,25 @@
 {
   "schema_version": 2,
   "architecture": "app-platform-v2",
-  "template_release": "architecture-v2-r3.2-20260808",
-  "status": "R3_REVALIDATED_R4_SOURCE",
-  "formal_release": false,
+  "template_release": "2.0.0",
+  "status": "FORMAL_RELEASE",
+  "formal_release": true,
   "target_formal_version": "2.0.0",
   "source": {
     "repository": "tpl-app",
     "branch": "architecture-v2",
-    "commit": "09f60f7d5455b6af5ea0587c012fe2c323b4ad06",
-    "tree": "bed9b0bb9974a86d7b4037895168e5d89c233899",
+    "commit": "069b89c4eb7693db8f603755d07f9d21a1e66787",
+    "tree": "c7d975604d24a7255e41782f67cc6b4ddd293dbb",
     "pre_refactor_tag": "pre-architecture-v2-20260801"
   },
   "default_components": [
     {
       "path": "tpl-backend",
       "role": "canonical-fastapi-backend",
-      "commit": "8997e9e9422fd5fefaff6ab3519bd0367075fdb0",
-      "tree": "b108acab7b843b8b6b488a6b6952c1ab303d5fb3",
+      "commit": "75a17f94567beb70fbf412829827152f772c98fd",
+      "tree": "49b46cb9f63f67fe25b3b5853c4de36fdc794417",
       "tracked_files": 146,
-      "image": "harbor.sunmoonai.com:30443/app-images/tpl-backend@sha256:131793e27f5782511b7e6f8ce4c688639f9c2d460fe57fbe1ea805989ca481f1"
+      "image": "harbor.sunmoonai.com:30443/app-images/tpl-backend@sha256:8b504098427ab5349a04e933e1fdf71e3a8fc11ce0f5b36fff703ad356bad348"
     },
     {
       "path": "tpl-admin-frontend",
@@ -40,7 +40,7 @@
   ],
   "kubernetes_scaffold": {
     "path": "k8s-scaffold-v2",
-    "tree": "b004f54820a9490334794cd9999df7b2a3ba9550",
+    "tree": "4cc870e40b45ae2bbc2aca89f4f75e0453c2d491",
     "tracked_files": 10,
     "release_schema_version": 1,
     "deployment_order": [
@@ -124,17 +124,22 @@
     "R3_1": "k8s/sunmoonai/docs/architecture-v2/R3.1-template-revalidation-result.md",
     "R3_1_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3.1-template-gate",
     "R3_2": "k8s/sunmoonai/docs/architecture-v2/R3.2-template-revalidation-result.md",
-    "R3_2_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3.2-template-gate"
+    "R3_2_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R3.2-template-gate",
+    "R7": "k8s/sunmoonai/docs/architecture-v2/R7-release-closeout.md",
+    "R7_template_machine": "k8s/sunmoonai/docs/architecture-v2/evidence/R7-release/template"
   },
   "release_policy": {
-    "r4_sync_order": [
+    "instance_sync_order": [
       "info",
       "knowledge",
-      "research"
+      "investment"
     ],
     "business_changes_before_r4_complete": false,
     "mutable_image_tags_allowed": false,
     "overwrite_v1_1_0_0": false,
-    "promote_to_2_0_0_before_r7": false
+    "formal_version": "2.0.0",
+    "promotion_method": "exact-digest-alias",
+    "observation_window": "active",
+    "irreversible_v1_cleanup_allowed": false
   }
 }
