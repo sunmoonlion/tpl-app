@@ -39,7 +39,7 @@
     }
   ],
   "kubernetes_scaffold": {
-    "path": "k8s-scaffold-v2",
+    "path": "k8s-deployment",
     "tree": "4cc870e40b45ae2bbc2aca89f4f75e0453c2d491",
     "tracked_files": 10,
     "release_schema_version": 1,
@@ -57,7 +57,7 @@
       "tpl-backend",
       "tpl-admin-frontend",
       "tpl-web-frontend",
-      "k8s-scaffold-v2"
+      "k8s-deployment"
     ],
     "allowed_difference_classes": [
       "domain-extension",

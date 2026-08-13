@@ -145,4 +145,4 @@ git add .gitmodules \
   "${APP_NAME}-web-frontend"
 
 echo ">>> 源码转换完成。"
-echo ">>> 请先创建并推送三个子仓，再提交父仓 gitlink；部署清单由 k8s-scaffold-v2 生成。"
+echo ">>> 请先创建并推送三个子仓，再提交父仓 gitlink；部署清单由 k8s-deployment 生成。"

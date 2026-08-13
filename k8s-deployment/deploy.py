@@ -12,6 +12,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import yaml
+
 
 class DeployError(RuntimeError):
     pass
@@ -83,6 +85,67 @@ def apply_file(args: argparse.Namespace, bundle: Path, name: str) -> None:
     kubectl(args, "apply", "-f", str(bundle / name))
 
 
+def apply_runtime_component(
+    args: argparse.Namespace, bundle: Path, resource_name: str
+) -> None:
+    documents = [
+        item
+        for item in yaml.safe_load_all(
+            (bundle / "20-runtime.yaml").read_text(encoding="utf-8")
+        )
+        if item and item.get("metadata", {}).get("name") == resource_name
+    ]
+    if not any(item.get("kind") == "Deployment" for item in documents):
+        raise DeployError(f"runtime component is missing Deployment/{resource_name}")
+    payload = yaml.safe_dump_all(
+        documents, sort_keys=False, allow_unicode=True
+    ).encode("utf-8")
+    kubectl(args, "apply", "-f", "-", input_bytes=payload)
+
+
+def run_migration(
+    args: argparse.Namespace,
+    bundle: Path,
+    *,
+    namespace: str,
+    app: str,
+    release_id: str,
+) -> None:
+    migration = f"{app}-backend-migration-{release_id}"
+    kubectl(
+        args,
+        "delete",
+        "job",
+        migration,
+        "-n",
+        namespace,
+        "--ignore-not-found=true",
+        "--wait=true",
+    )
+    apply_file(args, bundle, "10-migration.yaml")
+    try:
+        kubectl(
+            args,
+            "wait",
+            "--for=condition=complete",
+            f"job/{migration}",
+            "-n",
+            namespace,
+            f"--timeout={args.timeout}s",
+        )
+    except subprocess.CalledProcessError:
+        log_command = [args.kubectl]
+        if args.kubeconfig:
+            log_command.extend(("--kubeconfig", str(args.kubeconfig)))
+        log_command.extend(
+            ("logs", f"job/{migration}", "-n", namespace, "--tail=100")
+        )
+        subprocess.run(log_command, check=False)
+        raise
+    kubectl(args, "logs", f"job/{migration}", "-n", namespace, "--tail=100")
+    kubectl(args, "delete", "job", migration, "-n", namespace, "--wait=true")
+
+
 def apply(args: argparse.Namespace, bundle: Path, release: dict[str, object]) -> None:
     namespace = str(release["namespace"])
     app = str(release["app"])
@@ -134,31 +197,55 @@ def apply(args: argparse.Namespace, bundle: Path, release: dict[str, object]) ->
     )
 
     apply_file(args, bundle, "30-network-policies.yaml")
-    apply_file(args, bundle, "10-migration.yaml")
-    migration = f"{app}-backend-migration-{release_id}"
-    try:
+
+    if args.component == "prerequisites":
+        print(json.dumps({"result": "passed", "component": args.component}))
+        return
+    if args.component == "network-policies":
+        print(json.dumps({"result": "passed", "component": args.component}))
+        return
+    if args.component == "ingress":
+        apply_file(args, bundle, "40-ingress.yaml")
+        print(json.dumps({"result": "passed", "component": args.component}))
+        return
+    if args.component == "migration":
+        run_migration(
+            args,
+            bundle,
+            namespace=namespace,
+            app=app,
+            release_id=release_id,
+        )
+        print(json.dumps({"result": "passed", "component": args.component}))
+        return
+    if args.component != "all":
+        resource_name = f"{app}-{args.component}"
+        apply_runtime_component(args, bundle, resource_name)
+        if args.component in {"backend-api", "admin-frontend", "web-frontend"}:
+            apply_file(args, bundle, "40-ingress.yaml")
         kubectl(
             args,
-            "wait",
-            "--for=condition=complete",
-            f"job/{migration}",
+            "rollout",
+            "status",
+            f"deployment/{resource_name}",
             "-n",
             namespace,
             f"--timeout={args.timeout}s",
         )
-    except subprocess.CalledProcessError:
-        log_command = [args.kubectl]
-        if args.kubeconfig:
-            log_command.extend(("--kubeconfig", str(args.kubeconfig)))
-        log_command.extend(
-            ("logs", f"job/{migration}", "-n", namespace, "--tail=100")
+        print(
+            json.dumps(
+                {"result": "passed", "component": args.component, "deployment": resource_name}
+            )
         )
-        subprocess.run(
-            log_command,
-            check=False,
-        )
-        raise
-    kubectl(args, "logs", f"job/{migration}", "-n", namespace, "--tail=100")
+        return
+
+    run_migration(
+        args,
+        bundle,
+        namespace=namespace,
+        app=app,
+        release_id=release_id,
+    )
 
     apply_file(args, bundle, "20-runtime.yaml")
     apply_file(args, bundle, "40-ingress.yaml")
@@ -179,11 +266,10 @@ def apply(args: argparse.Namespace, bundle: Path, release: dict[str, object]) ->
             namespace,
             f"--timeout={args.timeout}s",
         )
-    kubectl(args, "delete", "job", migration, "-n", namespace, "--wait=true")
     print(
         json.dumps(
             {
-                "task": "architecture-v2-deploy",
+                "task": "app-platform-deploy",
                 "result": "passed",
                 "app": app,
                 "namespace": namespace,
@@ -236,6 +322,22 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--kubeconfig", type=Path)
     parser.add_argument("--kubectl", default="kubectl")
     parser.add_argument("--timeout", type=int, default=300)
+    parser.add_argument(
+        "--component",
+        choices=(
+            "all",
+            "prerequisites",
+            "migration",
+            "network-policies",
+            "backend-api",
+            "backend-worker",
+            "backend-scheduler",
+            "admin-frontend",
+            "web-frontend",
+            "ingress",
+        ),
+        default="all",
+    )
     parser.add_argument("--delete-namespace", action="store_true")
     return parser.parse_args()
 

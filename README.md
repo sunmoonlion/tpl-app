@@ -8,7 +8,7 @@ tpl-app/
 ├── tpl-backend/                 # Admin/Web/Internal 共用的领域 Backend
 ├── tpl-admin-frontend/          # Next.js 管理端
 ├── tpl-web-frontend/            # Next.js 用户端
-└── k8s-scaffold-v2/             # API/Worker/Scheduler/Migration 运行角色生成器
+└── k8s-deployment/              # 稳定的 App 总量/组件级 Kubernetes 生成与部署入口
 ```
 
 ## 默认组件
@@ -33,7 +33,7 @@ Worker 仍是生产必需能力，但不再是独立源码工程。`tpl-backend`
 - Migration：`python -m app.bootstrap.migration`
 
 四个角色使用独立 ServiceAccount、数据库 principal、消息凭据、资源、探针和扩缩容策略。
-规范部署声明由 [k8s-scaffold-v2/README.md](k8s-scaffold-v2/README.md) 生成；禁止恢复
+规范部署声明由 [k8s-deployment/README.md](k8s-deployment/README.md) 生成；禁止恢复
 `celeryworker-*`、`nodebullworker-*` 或旧 `k8s-scaffold/` 源码副本。
 
 ## 参考实现
@@ -78,7 +78,7 @@ uv run pytest -q
 ## Kubernetes 模板验证
 
 ```bash
-python3 -m unittest discover -s k8s-scaffold-v2/tests -v
+python3 -m unittest discover -s k8s-deployment/tests -v
 python3 verify_template_release.py
 ```
 

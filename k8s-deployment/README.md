@@ -1,6 +1,7 @@
-# Architecture v2 Kubernetes scaffold
+# App Platform Kubernetes deployment scaffold
 
-本目录是统一 Backend 架构唯一活动的 Kubernetes 脚手架。旧 `k8s-scaffold/`、
+本目录是统一 Backend 架构唯一活动的 Kubernetes 部署脚手架。目录名与长期
+分支名解耦，可在删除施工分支后继续使用。旧 `k8s-scaffold/`、
 `celeryworker-*` 和 `nodebullworker-*` 已从模板当前分支移除；历史提交和冻结标签仅供回滚，
 不得重新复制进 Architecture v2 实例。
 
@@ -59,6 +60,23 @@ python3 deploy.py apply \
   --secret-env-file /secure/path/tpl-backend.env \
   --kubeconfig "$HOME/.kube/kind-config"
 ```
+
+默认 `--component all` 按完整顺序部署整个 App。同一入口也支持独立部署，不会维护
+第二份清单：
+
+```bash
+python3 deploy.py apply --component backend-api ...
+python3 deploy.py apply --component backend-worker ...
+python3 deploy.py apply --component backend-scheduler ...
+python3 deploy.py apply --component admin-frontend ...
+python3 deploy.py apply --component web-frontend ...
+python3 deploy.py apply --component migration ...
+python3 deploy.py apply --component ingress ...
+```
+
+组件部署仍会先对 release hash、外部 Secret、前置资源和 NetworkPolicy 做同样校验；
+它只从已锁定的 `20-runtime.yaml` 取出目标 Deployment/PDB/HPA，因此总量与单组件
+部署不会漂移。
 
 部署严格按 `prerequisites/secret/network -> migration -> runtime -> ingress` 执行。Migration
 成功并采集日志后立即删除 Job，避免长期遗留 `Completed` Pod；失败时不部署运行时。
