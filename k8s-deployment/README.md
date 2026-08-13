@@ -5,6 +5,12 @@
 `celeryworker-*` 和 `nodebullworker-*` 已从模板当前分支移除；历史提交和冻结标签仅供回滚，
 不得重新复制进 Architecture v2 实例。
 
+`deployment_config.py` 是实例部署配置语法的模板真相源。实例必须保留 App 总入口、组件
+入口、`deploy-<app>-app-all.conf` 和 `profiles/{KIND,C1,production}.conf`，同时只维护一份
+bundle/YAML。配置解析器禁止执行 shell、拒绝未知键，并要求配置中的镜像 digest、origin、
+namespace、副本数和 release id 与已门禁的 `release.json` 完全一致；要改变这些值必须生成
+和验收一个新 release，不能在部署时覆盖旧 bundle。
+
 它生成一个 App 的以下运行角色：
 
 - 一个 FastAPI Backend 镜像：API、Celery Worker、Scheduler、Migration；
@@ -41,6 +47,9 @@ python3 scaffold.py \
 `30-network-policies.yaml`、`40-ingress.yaml`、`required-secret-keys.txt`、
 `optional-secret-keys.txt` 和 `release.json`。`release.json` 锁定输入镜像 digest 和每个文件的
 SHA-256。
+
+实例侧 `.conf` 不保存 Secret。KIND/C1/production 的 kubeconfig、超时等操作参数放在独立
+profile；未完成真实集群门禁的 profile 必须以 `PROFILE_ENABLED=false` 明确禁用。
 
 `--casdoor-namespace` 必须填写 Casdoor 实际所在 namespace（默认仅兼容当前开发环境的
 `app-platform-dev`）。脚手架会据此生成跨 namespace 的 Casdoor egress policy；不能用应用
