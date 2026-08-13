@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: sunmoonai-app-platform
     sunmoonai.com/platform: "true"
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -14,7 +14,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 automountServiceAccountToken: false
 ---
 apiVersion: v1
@@ -24,7 +24,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 automountServiceAccountToken: false
 ---
 apiVersion: v1
@@ -34,7 +34,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 automountServiceAccountToken: false
 ---
 apiVersion: v1
@@ -44,7 +44,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 automountServiceAccountToken: false
 ---
 apiVersion: v1
@@ -54,7 +54,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 automountServiceAccountToken: false
 ---
 apiVersion: v1
@@ -64,7 +64,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 automountServiceAccountToken: false
 ---
 apiVersion: v1
@@ -74,7 +74,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 data:
   ENV: production
   LOG_LEVEL: INFO
@@ -127,7 +127,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 data:
   DEPLOYMENT_ENV: production
   AUTH_APP: __APP__
@@ -142,7 +142,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 data:
   DEPLOYMENT_ENV: production
   AUTH_APP: __APP__
@@ -158,7 +158,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   selector:
     sunmoonai.com/app: __APP__
@@ -175,7 +175,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   selector:
     sunmoonai.com/app: __APP__
@@ -192,7 +192,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   selector:
     sunmoonai.com/app: __APP__

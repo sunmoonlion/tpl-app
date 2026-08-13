@@ -191,7 +191,7 @@ def apply(args: argparse.Namespace, bundle: Path, release: dict[str, object]) ->
         "-n",
         namespace,
         f"sunmoonai.com/app={app}",
-        "sunmoonai.com/managed-by=architecture-v2",
+        "sunmoonai.com/managed-by=app-platform-v2",
         "--overwrite",
         capture=True,
     )
@@ -286,7 +286,7 @@ def apply(args: argparse.Namespace, bundle: Path, release: dict[str, object]) ->
 def cleanup(args: argparse.Namespace, release: dict[str, object]) -> None:
     namespace = str(release["namespace"])
     app = str(release["app"])
-    selector = f"sunmoonai.com/managed-by=architecture-v2,sunmoonai.com/app={app}"
+    selector = f"sunmoonai.com/managed-by=app-platform-v2,sunmoonai.com/app={app}"
     kinds = (
         "ingressroute,networkpolicy,horizontalpodautoscaler,poddisruptionbudget,"
         "deployment,service,configmap,serviceaccount,job,secret"

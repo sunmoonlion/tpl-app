@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/component: backend-migration
     app.kubernetes.io/part-of: __APP__
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
     sunmoonai.com/release-id: __RELEASE_ID__
 spec:
   backoffLimit: 0
@@ -21,7 +21,7 @@ spec:
         app.kubernetes.io/component: backend-migration
         app.kubernetes.io/part-of: __APP__
         sunmoonai.com/app: __APP__
-        sunmoonai.com/managed-by: architecture-v2
+        sunmoonai.com/managed-by: app-platform-v2
         sunmoonai.com/release-id: __RELEASE_ID__
     spec:
       restartPolicy: Never

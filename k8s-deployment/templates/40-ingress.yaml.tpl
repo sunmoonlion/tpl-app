@@ -5,7 +5,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   entryPoints: ["websecure"]
   routes:
@@ -31,7 +31,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   entryPoints: ["websecure"]
   routes:

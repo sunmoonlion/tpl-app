@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/component: backend-api
     app.kubernetes.io/part-of: __APP__
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   replicas: __API_REPLICAS__
   revisionHistoryLimit: 3
@@ -29,7 +29,7 @@ spec:
         app.kubernetes.io/component: backend-api
         app.kubernetes.io/part-of: __APP__
         sunmoonai.com/app: __APP__
-        sunmoonai.com/managed-by: architecture-v2
+        sunmoonai.com/managed-by: app-platform-v2
         sunmoonai.com/internal-provider: "true"
       annotations:
         sunmoonai.com/release-id: __RELEASE_ID__
@@ -152,7 +152,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   maxUnavailable: 1
   selector:
@@ -167,7 +167,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -198,7 +198,7 @@ metadata:
     app.kubernetes.io/component: backend-worker
     app.kubernetes.io/part-of: __APP__
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   replicas: __WORKER_REPLICAS__
   revisionHistoryLimit: 3
@@ -213,7 +213,7 @@ spec:
         app.kubernetes.io/component: backend-worker
         app.kubernetes.io/part-of: __APP__
         sunmoonai.com/app: __APP__
-        sunmoonai.com/managed-by: architecture-v2
+        sunmoonai.com/managed-by: app-platform-v2
     spec:
       serviceAccountName: __APP__-backend-worker
       automountServiceAccountToken: false
@@ -305,7 +305,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   maxUnavailable: 1
   selector:
@@ -320,7 +320,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -351,7 +351,7 @@ metadata:
     app.kubernetes.io/component: backend-scheduler
     app.kubernetes.io/part-of: __APP__
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -368,7 +368,7 @@ spec:
         app.kubernetes.io/component: backend-scheduler
         app.kubernetes.io/part-of: __APP__
         sunmoonai.com/app: __APP__
-        sunmoonai.com/managed-by: architecture-v2
+        sunmoonai.com/managed-by: app-platform-v2
       annotations:
         sunmoonai.com/release-id: __RELEASE_ID__
     spec:
@@ -434,7 +434,7 @@ metadata:
     app.kubernetes.io/component: admin-frontend
     app.kubernetes.io/part-of: __APP__
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   replicas: __ADMIN_REPLICAS__
   revisionHistoryLimit: 3
@@ -455,7 +455,7 @@ spec:
         app.kubernetes.io/component: admin-frontend
         app.kubernetes.io/part-of: __APP__
         sunmoonai.com/app: __APP__
-        sunmoonai.com/managed-by: architecture-v2
+        sunmoonai.com/managed-by: app-platform-v2
       annotations:
         sunmoonai.com/release-id: __RELEASE_ID__
     spec:
@@ -543,7 +543,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   maxUnavailable: 1
   selector:
@@ -558,7 +558,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -587,7 +587,7 @@ metadata:
     app.kubernetes.io/component: web-frontend
     app.kubernetes.io/part-of: __APP__
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   replicas: __WEB_REPLICAS__
   revisionHistoryLimit: 3
@@ -608,7 +608,7 @@ spec:
         app.kubernetes.io/component: web-frontend
         app.kubernetes.io/part-of: __APP__
         sunmoonai.com/app: __APP__
-        sunmoonai.com/managed-by: architecture-v2
+        sunmoonai.com/managed-by: app-platform-v2
       annotations:
         sunmoonai.com/release-id: __RELEASE_ID__
     spec:
@@ -696,7 +696,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   maxUnavailable: 1
   selector:
@@ -711,7 +711,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

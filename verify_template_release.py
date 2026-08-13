@@ -35,8 +35,10 @@ def main() -> int:
             raise ReleaseError("template release schema must be 2")
         if release.get("architecture") != "app-platform-v2":
             raise ReleaseError("template release architecture mismatch")
-        if release.get("formal_release") is not False:
-            raise ReleaseError("R3 template release must remain a candidate")
+        if release.get("formal_release") is not True:
+            raise ReleaseError("template release must be formal")
+        if release.get("template_release") != "2.0.0":
+            raise ReleaseError("formal template release must be 2.0.0")
 
         source = release["source"]
         source_commit = str(source["commit"])
@@ -72,20 +74,20 @@ def main() -> int:
             raise ReleaseError("Kubernetes scaffold tracked file count mismatch")
 
         policy = release["release_policy"]
-        if policy.get("r4_sync_order") != ["info", "knowledge", "research"]:
-            raise ReleaseError("R4 sync order is not frozen")
+        if policy.get("instance_sync_order") != ["info", "knowledge", "investment"]:
+            raise ReleaseError("instance sync order is not frozen")
         if policy.get("overwrite_v1_1_0_0") is not False:
             raise ReleaseError("v1 1.0.0 protection is not active")
 
         print(
             json.dumps(
                 {
-                    "task": "architecture-v2-template-release-lock",
+                    "task": "app-platform-v2-template-release-lock",
                     "result": "passed",
                     "template_release": release["template_release"],
                     "source_commit": source_commit,
                     "components": verified,
-                    "formal_release": False,
+                    "formal_release": True,
                     "credentials_printed": False,
                 },
                 ensure_ascii=False,
@@ -97,7 +99,7 @@ def main() -> int:
         print(
             json.dumps(
                 {
-                    "task": "architecture-v2-template-release-lock",
+                    "task": "app-platform-v2-template-release-lock",
                     "result": "failed",
                     "error": str(exc),
                 },

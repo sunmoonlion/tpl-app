@@ -5,7 +5,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   podSelector:
     matchLabels:
@@ -19,7 +19,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   podSelector:
     matchLabels:
@@ -44,7 +44,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   podSelector:
     matchExpressions:
@@ -73,7 +73,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   podSelector:
     matchExpressions:
@@ -100,7 +100,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   podSelector:
     matchLabels:
@@ -136,7 +136,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   podSelector:
     matchLabels:
@@ -177,7 +177,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   podSelector:
     matchLabels:
@@ -229,7 +229,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   podSelector:
     matchLabels:
@@ -261,7 +261,7 @@ metadata:
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
-    sunmoonai.com/managed-by: architecture-v2
+    sunmoonai.com/managed-by: app-platform-v2
 spec:
   podSelector:
     matchLabels:
