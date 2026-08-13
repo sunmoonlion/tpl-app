@@ -1,18 +1,9 @@
-[submodule "tpl-web-backend-nest"]
-	path = tpl-web-backend-nest
-	url = https://github.com/sunmoonlion/tpl-web-backend-nest.git
 [submodule "tpl-web-frontend"]
 	path = tpl-web-frontend
 	url = https://github.com/sunmoonlion/tpl-web-frontend.git
 [submodule "tpl-backend"]
 	path = tpl-backend
 	url = https://github.com/sunmoonlion/tpl-backend.git
-[submodule "tpl-admin-frontend-react"]
-	path = tpl-admin-frontend-react
-	url = https://github.com/sunmoonlion/tpl-admin-frontend-react.git
 [submodule "tpl-admin-frontend"]
 	path = tpl-admin-frontend
 	url = https://github.com/sunmoonlion/tpl-admin-frontend.git
-[submodule "tpl-admin-frontend-vue"]
-	path = tpl-admin-frontend-vue
-	url = https://github.com/sunmoonlion/tpl-admin-frontend-vue.git

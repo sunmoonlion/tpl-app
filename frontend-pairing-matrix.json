@@ -1,6 +1,6 @@
 {
-  "contract_version": 1,
-  "policy": "Both default Next.js surfaces pair with the one canonical FastAPI backend. Audience isolation is expressed by interface, OIDC, cookie, session, scope and Origin policy rather than a second backend. Reference profiles remain recoverable but never enter the default release.",
+  "contract_version": 2,
+  "policy": "Both default Next.js surfaces pair with the one canonical FastAPI backend. Archived React Router, Vue and NestJS implementations live in repo-backup and are excluded from current pairing acceptance.",
   "pairs": [
     {
       "id": "next-admin-fastapi-admin",
@@ -11,36 +11,12 @@
       "gate": "V5-P0-007E"
     },
     {
-      "id": "react-router-admin-fastapi-admin",
-      "frontend": "tpl-admin-frontend-react",
-      "backend": "tpl-backend",
-      "release_class": "REFERENCE_ONLY",
-      "status": "ACCEPTED",
-      "gate": "V5-P0-007D"
-    },
-    {
-      "id": "vue-admin-fastapi-admin",
-      "frontend": "tpl-admin-frontend-vue",
-      "backend": "tpl-backend",
-      "release_class": "REFERENCE_ONLY",
-      "status": "ACCEPTED",
-      "gate": "V5-P0-008B-B6.2"
-    },
-    {
       "id": "next-web-unified-fastapi",
       "frontend": "tpl-web-frontend",
       "backend": "tpl-backend",
       "release_class": "DEFAULT",
       "status": "ACCEPTED",
       "gate": "ARCH-V2-R2-R4"
-    },
-    {
-      "id": "next-web-nest-web",
-      "frontend": "tpl-web-frontend",
-      "backend": "tpl-web-backend-nest",
-      "release_class": "OPTIONAL",
-      "status": "ACCEPTED",
-      "gate": "V5-P0-008B-B6.3"
     }
   ]
 }

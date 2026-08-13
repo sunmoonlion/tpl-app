@@ -36,13 +36,12 @@ Worker 仍是生产必需能力，但不再是独立源码工程。`tpl-backend`
 规范部署声明由 [k8s-deployment/README.md](k8s-deployment/README.md) 生成；禁止恢复
 `celeryworker-*`、`nodebullworker-*` 或旧 `k8s-scaffold/` 源码副本。
 
-## 参考实现
+## 历史参考实现
 
-下列子模块只用于对照或回归，不进入默认实例化链：
-
-- `tpl-admin-frontend-react`：React Router 管理端参考；
-- `tpl-admin-frontend-vue`：Vue 管理端参考；
-- `tpl-web-backend-nest`：NestJS Backend 参考。
+React Router Admin、Vue Admin 与 NestJS Backend 已从模板活动子模块移至独立的
+`repo-backup` 仓库。它们只用于源码对照和恢复，不进入默认实例化链、release bundle 或当前
+配对验收。`template-release-manifest.json` 中出现的同名路径仅是历史 2.0.0 验收记录，不能
+解释为当前工作树组件。
 
 旧 FastAPI `tpl-web-backend` 已在 Architecture v2 配对、迁移和回滚门禁完成后从父仓活动拓扑
 解除；远端仓库、冻结提交和历史 release manifest 继续提供审计与恢复能力。
@@ -59,7 +58,7 @@ cd new-app
 ```
 
 脚本会把三个默认组件改为 `tools-backend`、`tools-admin-frontend`、
-`tools-web-frontend`，从实例父仓移除参考子模块，并更新 GitHub 子模块地址。远端目标仓必须在
+`tools-web-frontend`，并更新 GitHub 子模块地址。远端目标仓必须在
 推送前创建；推送顺序始终是“子仓先推，父仓后提交 gitlink”。
 
 `init.sh` 是一次性、原地转换工具，不得在权威 `tpl-app` 工作树直接执行。公共能力后续变更仍须
@@ -84,6 +83,9 @@ python3 verify_template_release.py
 
 正式部署镜像必须使用 `repository@sha256:...`，不能使用可变 tag。R3/R4 的冻结模板 release
 仍由 `template-release-manifest.json` 描述；该文件记录历史验收对象，不随父仓清理而重写。
+
+开发环境晋级生产的配置分层、Secret、PVC 和完整切换检查表见
+[dev-to-prod-deploy](dev-to-prod-deploy/README.md)。
 
 ## 子模块协作
 

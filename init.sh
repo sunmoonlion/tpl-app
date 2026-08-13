@@ -34,7 +34,6 @@ if [[ -n "$(git status --porcelain --untracked-files=no)" ]]; then
 fi
 
 ACTIVE_COMPONENTS=(backend admin-frontend web-frontend)
-REFERENCE_COMPONENTS=(admin-frontend-react admin-frontend-vue web-backend-nest)
 
 for component in "${ACTIVE_COMPONENTS[@]}"; do
   path="tpl-${component}"
@@ -83,13 +82,6 @@ echo ">>> 实例化 $APP_NAME（GitHub organization: $GITHUB_ORG）"
 for component in "${ACTIVE_COMPONENTS[@]}"; do
   replace_text_files "tpl-${component}"
   rename_tpl_paths "tpl-${component}"
-done
-
-for component in "${REFERENCE_COMPONENTS[@]}"; do
-  if git ls-files --error-unmatch "tpl-${component}" >/dev/null 2>&1; then
-    git submodule deinit -f -- "tpl-${component}" >/dev/null 2>&1 || true
-    git rm -f "tpl-${component}"
-  fi
 done
 
 cat > .gitmodules <<EOF
