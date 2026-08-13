@@ -132,20 +132,57 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: __APP__-backend-runtime-egress
+  name: __APP__-backend-api-egress
   namespace: __NAMESPACE__
   labels:
     sunmoonai.com/app: __APP__
     sunmoonai.com/managed-by: architecture-v2
 spec:
   podSelector:
-    matchExpressions:
-      - key: sunmoonai.com/app
-        operator: In
-        values: ["__APP__"]
-      - key: app.kubernetes.io/component
-        operator: In
-        values: ["backend-api", "backend-worker", "backend-scheduler"]
+    matchLabels:
+      sunmoonai.com/app: __APP__
+      app.kubernetes.io/component: backend-api
+  policyTypes: ["Egress"]
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              sunmoonai.com/backend-dependency: __APP__
+      ports:
+        - {protocol: TCP, port: 5432}
+        - {protocol: TCP, port: 6379}
+        - {protocol: TCP, port: 5672}
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              sunmoonai.com/data-platform: "true"
+      ports:
+        - {protocol: TCP, port: 5432}
+        - {protocol: TCP, port: 6379}
+        - {protocol: TCP, port: 5672}
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: __CASDOOR_NAMESPACE__
+          podSelector:
+            matchLabels:
+              app: casdoor-sunmoonai
+      ports:
+        - {protocol: TCP, port: 8000}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: __APP__-backend-worker-egress
+  namespace: __NAMESPACE__
+  labels:
+    sunmoonai.com/app: __APP__
+    sunmoonai.com/managed-by: architecture-v2
+spec:
+  podSelector:
+    matchLabels:
+      sunmoonai.com/app: __APP__
+      app.kubernetes.io/component: backend-worker
   policyTypes: ["Egress"]
   egress:
     - to:
@@ -184,6 +221,38 @@ spec:
             cidr: 0.0.0.0/0
       ports:
         - {protocol: TCP, port: 443}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: __APP__-backend-scheduler-egress
+  namespace: __NAMESPACE__
+  labels:
+    sunmoonai.com/app: __APP__
+    sunmoonai.com/managed-by: architecture-v2
+spec:
+  podSelector:
+    matchLabels:
+      sunmoonai.com/app: __APP__
+      app.kubernetes.io/component: backend-scheduler
+  policyTypes: ["Egress"]
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              sunmoonai.com/backend-dependency: __APP__
+      ports:
+        - {protocol: TCP, port: 5432}
+        - {protocol: TCP, port: 6379}
+        - {protocol: TCP, port: 5672}
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              sunmoonai.com/data-platform: "true"
+      ports:
+        - {protocol: TCP, port: 5432}
+        - {protocol: TCP, port: 6379}
+        - {protocol: TCP, port: 5672}
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
