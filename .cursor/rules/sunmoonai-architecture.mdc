@@ -1,0 +1,6 @@
+---
+description: SunMoonAI 架构文档入口指针（任务涉及 sunmoonai 时先读 AGENTS.md）
+alwaysApply: true
+---
+
+任务涉及 `/home/zymun/k8s/sunmoonai` 路径 → 先读 `/home/zymun/k8s/sunmoonai/docs/sunmoonai-architecture/AGENTS.md`，再按其流程行动；不复述其中规则。
