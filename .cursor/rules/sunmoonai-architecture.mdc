@@ -3,9 +3,9 @@ description: SunMoonAI 项目入口指针（任务涉及本项目时先读总览
 alwaysApply: true
 ---
 
-任务涉及本仓代码或文档 → 先读 `../k8s/sunmoonai/docs/overall-architecture.md`（项目总览），
+任务涉及本仓代码或文档 → 先读 `../k8s/sunmoonai/docs/architecture/overall-architecture.md`（项目总览），
 再按其指路进入 `../k8s/sunmoonai/docs/architecture/` 下的细节层；不复述其中规则。
 
-要提一个开发请求 → 另读 `../k8s/sunmoonai/docs/request-lifecycle.md`。
+要提一个开发请求 → 另读 `../k8s/sunmoonai/docs/architecture/request-lifecycle.md`。
 
 五仓（tpl-app / info-app / knowledge-app / investment-app / k8s）必须并列放置。
