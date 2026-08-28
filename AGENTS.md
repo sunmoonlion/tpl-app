@@ -5,8 +5,8 @@
 
 任何开发动作（读改代码、写文档、提交）前，先读项目总览：
 
-`../k8s/sunmoonai/docs/architecture/overall-architecture.md`
+`../k8s/sunmoonai/docs/project-guide/overall-architecture.md`
 
-要提一个开发请求，另读：`../k8s/sunmoonai/docs/architecture/request-lifecycle.md`
+要提一个开发请求，另读：`../k8s/sunmoonai/docs/project-guide/request-lifecycle.md`
 
 不在此复述其中规则。
