@@ -7,6 +7,6 @@
 
 `../k8s/sunmoonai/docs/project-guide/overall-architecture.md`
 
-要提一个开发请求，另读：`../k8s/sunmoonai/docs/project-guide/request-lifecycle.md`
+要提一个开发请求，另读：`../k8s/sunmoonai/docs/working/request-lifecycle.md`
 
 不在此复述其中规则。
