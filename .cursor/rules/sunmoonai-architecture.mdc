@@ -3,7 +3,7 @@ description: SunMoonAI 项目入口指针（改代码前先读 constraints，了
 alwaysApply: true
 ---
 
-**改代码前 → 先读 `../k8s/sunmoonai/docs/dev-plan/constraints.md`**（18 条约束 + 19 条不变量，违反者不进入讨论）。
+**改代码前 → 先读 `../k8s/sunmoonai/docs/dev-plan/constraints.md`**（39 条，按主题分组；违反者不进入讨论）。
 
 要了解项目长什么样 → 读 `../k8s/sunmoonai/docs/project-guide/overall-architecture.md`（项目总览），
 再按其指路进入 `../k8s/sunmoonai/docs/project-guide/` 下的细节层；不复述其中规则。

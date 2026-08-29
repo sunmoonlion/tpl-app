@@ -3,7 +3,7 @@
 本仓是 SunMoonAI 平台五个协作仓之一（`tpl-app` / `info-app` / `knowledge-app` /
 `investment-app` / `k8s`，**必须并列放置**）。
 
-**动代码前必读**——代码必须符合的规则（18 条约束 + 19 条不变量）：
+**动代码前必读**——代码必须符合的规则（39 条，按主题分组）：
 
 `../k8s/sunmoonai/docs/dev-plan/constraints.md`
 
