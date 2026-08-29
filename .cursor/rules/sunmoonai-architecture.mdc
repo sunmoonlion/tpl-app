@@ -1,9 +1,11 @@
 ---
-description: SunMoonAI 项目入口指针（任务涉及本项目时先读总览）
+description: SunMoonAI 项目入口指针（改代码前先读 constraints，了解项目读总览）
 alwaysApply: true
 ---
 
-任务涉及本仓代码或文档 → 先读 `../k8s/sunmoonai/docs/project-guide/overall-architecture.md`（项目总览），
+**改代码前 → 先读 `../k8s/sunmoonai/docs/dev-plan/constraints.md`**（18 条约束 + 19 条不变量，违反者不进入讨论）。
+
+要了解项目长什么样 → 读 `../k8s/sunmoonai/docs/project-guide/overall-architecture.md`（项目总览），
 再按其指路进入 `../k8s/sunmoonai/docs/project-guide/` 下的细节层；不复述其中规则。
 
 要提一个开发请求 → 另读 `../k8s/sunmoonai/docs/working/request-lifecycle.md`。
