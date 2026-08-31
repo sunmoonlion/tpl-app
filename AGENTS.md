@@ -13,6 +13,16 @@
 
 `../k8s/sunmoonai/docs/project-guide/overall-architecture.md`
 
-要提一个开发请求，另读：`../k8s/sunmoonai/docs/working/request-lifecycle.md`
+产品请求生命周期合同：
+
+`../k8s/sunmoonai/docs/dev-plan/working/request-lifecycle.md`
+
+开发 Agent 接任务前必须读取：
+
+`../k8s/sunmoonai/docs/dev-plan/working/development-lifecycle-agent.md`
+
+涉及人的批准、裁量或终审时，同时读取：
+
+`../k8s/sunmoonai/docs/dev-plan/working/development-lifecycle-human.md`
 
 不在此复述其中规则。
