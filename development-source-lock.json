@@ -8,8 +8,8 @@
   "components": [
     {
       "path": "tpl-backend",
-      "commit": "f95a2757832dd88bf17b0b64a9e8e07b8b789778",
-      "tree": "59f7b18f3bd0e0eeceb7e7c17385a837bddc2fd8",
+      "commit": "ca67032502a7507986f175b17967db624644f1a5",
+      "tree": "01fc942a4c80dbb6764a371a4008ab273b764088",
       "remote_branch": "origin/luna/durable-delivery-20260911-local"
     },
     {
