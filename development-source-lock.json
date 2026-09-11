@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "development-source-lock",
+  "repository": "tpl-app",
+  "formal_release": false,
+  "task": "durable-delivery-luna-20260911",
+  "release_boundary": "Source-only development candidate; historical formal release and deployed images are unchanged.",
+  "components": [
+    {
+      "path": "tpl-backend",
+      "commit": "f95a2757832dd88bf17b0b64a9e8e07b8b789778",
+      "tree": "59f7b18f3bd0e0eeceb7e7c17385a837bddc2fd8",
+      "remote_branch": "origin/luna/durable-delivery-20260911-local"
+    },
+    {
+      "path": "tpl-admin-frontend",
+      "commit": "3c8727fc827dddab875bfe65e7d46210cd588c66",
+      "tree": "151457c71dd722b05d3b497d51c29cadac790882",
+      "remote_branch": "origin/luna/durable-delivery-20260911-local"
+    },
+    {
+      "path": "tpl-web-frontend",
+      "commit": "1ba9467e5e382f180585a34070f11e8ffb5c9f9e",
+      "tree": "f7c785fc764bc244fee55765e961ebab96a3c94f",
+      "remote_branch": "origin/luna/durable-delivery-20260911-local"
+    }
+  ]
+}
