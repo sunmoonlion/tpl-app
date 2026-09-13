@@ -108,6 +108,8 @@ tpl-backend/app/.venv/bin/python -m pytest \
 两者共用上述精确端口/测试库与清理规则，不为业务环境提供 apply 入口。
 Knowledge 验证使用独立确认域 `disposable-b7q-only`；同样仅连接获准的一次性 PG，
 复用公共工具而不导入其他 App 的业务包。
+Investment 验证使用 `disposable-b7r-only`，遵守相同精确目标与隔离清理规则；
+真实 LangGraph checkpointer 也必须使用其测试 Worker 的独立连接，不可沿用管理员。
 
 ```bash
 chmod 600 /secure/path/tpl-backend.env
