@@ -214,6 +214,8 @@ spec:
         app.kubernetes.io/part-of: __APP__
         sunmoonai.com/app: __APP__
         sunmoonai.com/managed-by: app-platform-v2
+      annotations:
+        sunmoonai.com/release-id: __RELEASE_ID__
     spec:
       serviceAccountName: __APP__-backend-worker
       automountServiceAccountToken: false

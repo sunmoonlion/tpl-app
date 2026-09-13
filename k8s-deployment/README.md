@@ -61,6 +61,12 @@ Secret 值不进入模板、Git、命令行或日志。创建权限为 `0600` �
 `required-secret-keys.txt` 完全相符。不同运行角色使用不同数据库和 broker 键，但都存放于
 一个 Kubernetes Secret；每个 Pod 只引用本角色所需的 key。
 
+实例覆盖必须保留模板的分角色运行凭据引用，不得将它们改回共享 DATABASE_URL /
+CELERY_BROKER_URL。B7m 补齐 Worker 的 release-id 注解；最终渲染测试同时核新就绪
+检查、发布标识及领域挂载不丢失。Secret 的不同 key 不证明真实用户名/权限不同，
+供给时仍须使用独立 principal，并执行独立撤销与最小权限验收；不要把旧共享凭据复制
+到几个新 key 当作隔离。该源码更新不改变既有 bundle 或集群。
+
 ```bash
 chmod 600 /secure/path/tpl-backend.env
 python3 deploy.py plan --bundle /tmp/tpl-r3-bundle

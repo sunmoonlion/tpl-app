@@ -64,6 +64,11 @@ class ScaffoldTest(unittest.TestCase):
             self.assertIn("- app.cli.worker_readiness", runtime)
             self.assertNotIn("inspect ping", runtime)
             self.assertIn("timeoutSeconds: 8", runtime)
+            worker = runtime.split("name: demo-backend-worker\n", 1)[1].split("---", 1)[0]
+            self.assertIn("sunmoonai.com/release-id: r3-001", worker)
+            for role in ("API", "WORKER", "SCHEDULER"):
+                self.assertIn(f"key: {role}_DATABASE_URL", runtime)
+                self.assertIn(f"key: {role}_CELERY_BROKER_URL", runtime)
             self.assertIn('CELERY_WORKER_CONCURRENCY: "2"', prerequisites)
             self.assertIn(
                 '--concurrency="${CELERY_WORKER_CONCURRENCY}"', runtime
