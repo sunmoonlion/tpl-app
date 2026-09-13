@@ -101,6 +101,12 @@ tpl-backend/app/.venv/bin/python -m pytest \
 对象，不 FORCE、CASCADE 或终止其他连接。该测试供给 fixture 不是业务凭据供给器。
 目前尚未接远端 CI，不能把“有文件”写成每次提交已自动运行真实 PG 验收。
 
+`integration/permission_pg_support.py` 是公共隔离测试工具，不导入任何 App 模块；
+实例须在独立 Python 进程中传入自己的 Backend 路径和已评审的权限编译函数，避免
+同名 `app` 包互相污染。模板确认域仍为 `disposable-b7o-only`；Info 使用
+`disposable-b7p-only`，以及仅在新测试库中创建 `uuid-ossp` 的显式选项（旧迁移需要）。
+两者共用上述精确端口/测试库与清理规则，不为业务环境提供 apply 入口。
+
 ```bash
 chmod 600 /secure/path/tpl-backend.env
 python3 deploy.py plan --bundle /tmp/tpl-r3-bundle
