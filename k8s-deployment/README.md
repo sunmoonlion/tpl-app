@@ -97,8 +97,9 @@ B7t 将同一门禁扩展为显式 Backend 目标：`BROKER_PERMISSION_TEST_BACK
 工作区已初始化的同级 `<name>-app/<name>-backend/app`，默认仍为模板。必须使用目标
 Backend 自己的 `.venv/bin/python` 执行；application 模块在各自进程中加载，不混用四仓。
 `BROKER_PERMISSION_TEST_AUXILIARY=none|s3|redis` 指定完整回归需要的额外临时依赖，
-不接收外部服务 URL。Info 用 s3，Knowledge 用 none，Investment 用 redis；跨仓向量
-从所选 App 父仓读取，Agent PG 测试仍使用同一个随机测试容器而非业务数据库。
+不接收外部服务 URL。Info 用 s3，Knowledge 用 none，Investment 用 redis；Web 交互
+向量始终读取模板父仓的共享真源，不假设实例有副本。Agent PG 测试仍使用同一个随机
+测试容器而非业务数据库。
 
 `integration/broker_test_support.py` 不导入领域代码。S3 为兼容既有故障用例，只允许
 新容器占用回环 59039 和已声明的合成测试凭据；端口冲突失败，不复用未知服务。

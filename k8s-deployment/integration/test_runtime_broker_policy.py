@@ -618,8 +618,7 @@ def test_full_backend_gate_without_skips(instance, tmp_path):
             ),
             "CELERY_PROBE_TEST_BROKER_URL": broker_url,
             "WEB_INTERACTION_CONSUMER_VECTORS": str(
-                BACKEND.parent.parent
-                / "contracts/web-interaction-v1.consumer-vectors.json"
+                DEPLOYMENT.parent / "contracts/web-interaction-v1.consumer-vectors.json"
             ),
         }
         # Do not let the calling shell opt the ordinary baseline suite into the
