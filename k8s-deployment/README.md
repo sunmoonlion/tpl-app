@@ -67,6 +67,32 @@ CELERY_BROKER_URL。B7m 补齐 Worker 的 release-id 注解；最终渲染测试
 供给时仍须使用独立 principal，并执行独立撤销与最小权限验收；不要把旧共享凭据复制
 到几个新 key 当作隔离。该源码更新不改变既有 bundle 或集群。
 
+### RabbitMQ 分角色权限候选（B7s，尚未接部署）
+
+`runtime_broker_policy.py` 生成单个 App 的精确任务拓扑和三个不同用户的 permissions，
+不带用户密码/hash，也不连接服务。API/Scheduler 只向任务交换机发布；Worker 保留消费、
+再次发布、控制/回复/事件资源。默认任务交换机与队列同名，不能给生产者交换机 read 后
+宣称它不能消费。因此候选依赖 Backend 显式 `CELERY_TASK_TOPOLOGY_PREDECLARED=true`，
+且需先由供给面建立 durable direct 交换机/队列/绑定；当前无 Celery result backend。
+详见 Backend `docs/broker-topology.md`，未替换业务 definitions、渲染或 Secret。
+
+`integration/test_runtime_broker_policy.py` 必须显式
+`BROKER_PERMISSION_TEST_CONFIRM=disposable-b7s-only` 才能运行，缺确认失败而非跳过。
+它自行创建固定缓存镜像的随机 Docker 容器，只绑定宿主机回环动态端口，不接受外部
+broker URL。测试账号、密码及 vhost 随机生成；结束精确删除自身容器。最后的完整模板
+回归另建临时 PostgreSQL 及独立宽权限测试 vhost，不能把该回归当作限制角色权限的证据。
+需要 Docker 执行授权；模板 Backend 既有 `.venv` 提供依赖。
+
+```bash
+BROKER_PERMISSION_TEST_CONFIRM=disposable-b7s-only \
+  tpl-backend/app/.venv/bin/pytest -q -x -rP \
+  k8s-deployment/integration/test_runtime_broker_policy.py
+```
+
+Worker 的 read 仍允许 purge，控制资源权限不能按 inspect/shutdown 消息内容细分；
+不把资源 ACL 当成审批或 Worker 内部不可篡改机制。业务切换、重启后的 definitions
+一致性及旧连接撤销仍需独立批准和验收，不能直接对共享 broker 导入本候选输出。
+
 ### 数据库分角色权限候选（B7o，尚未接部署）
 
 `runtime_database_policy.py` 提供模板当前六张表的纯 GRANT 编译函数，按实际迁移后的
