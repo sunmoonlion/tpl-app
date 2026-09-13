@@ -267,9 +267,9 @@ spec:
           readinessProbe:
             exec:
               command:
-                - /bin/sh
-                - -ec
-                - celery -A app.bootstrap.worker:celery_app inspect ping --destination="celery@${POD_NAME}" --timeout=3 | grep -q pong
+                - python
+                - -m
+                - app.cli.worker_readiness
             initialDelaySeconds: 5
             periodSeconds: 15
             timeoutSeconds: 8

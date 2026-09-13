@@ -61,6 +61,9 @@ class ScaffoldTest(unittest.TestCase):
             self.assertIn("demo-web-frontend", all_yaml)
             prerequisites = (output / "00-prerequisites.yaml").read_text()
             runtime = (output / "20-runtime.yaml").read_text()
+            self.assertIn("- app.cli.worker_readiness", runtime)
+            self.assertNotIn("inspect ping", runtime)
+            self.assertIn("timeoutSeconds: 8", runtime)
             self.assertIn('CELERY_WORKER_CONCURRENCY: "2"', prerequisites)
             self.assertIn(
                 '--concurrency="${CELERY_WORKER_CONCURRENCY}"', runtime
