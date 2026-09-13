@@ -108,6 +108,32 @@ Redis 使用新随机密码和回环动态端口。两种辅助服务的启动/�
 故一次运行需授权临时 RabbitMQ/PostgreSQL/MinIO/Valkey 及其自身匿名卷的创建和清理。
 不能因文档说支持多个目标就并行跑实例，仍按模板→Info→Knowledge→Investment 串行。
 
+### 数据库与 broker 联合运行门禁（B7u，尚未接部署）
+
+`integration/test_runtime_identity_joint.py` 将真实四角色 PG 策略和三角色 broker 策略
+组合运行：真实 API 存储/提交、Beat、prefork Worker、Inbox/效果原子性、broker ACK、
+失败回滚和杀进程后的默认 60 秒租约恢复。只替换合成 handler，不替换存储、任务传输、
+租约或生产调度。不能把共同投递测试当成领域 Provider/LLM 或整个 Agent 产品验收。
+
+从 tpl-app 目录运行模板（仍需 Docker 创建/精确清理授权）：
+
+```bash
+JOINT_RUNTIME_TEST_CONFIRM=disposable-b7u-only \
+BROKER_PERMISSION_TEST_CONFIRM=disposable-b7s-only \
+  tpl-backend/app/.venv/bin/pytest -q -x -rP --asyncio-mode=auto \
+  k8s-deployment/integration/test_runtime_identity_joint.py
+```
+
+PG 仅新建本地一次性容器，绑定回环 55439；端口冲突失败并清理自身对象，绝不复用。
+不需要手工提供数据库管理员 URL；测试内部生成并仅在供给面使用。运行子进程过滤
+继承的数据库/broker URL，只注入本角色 URL。SIGKILL 仅针对测试自己创建且核验过的
+Worker 进程组。退出精确清理随机数据库/角色、broker vhost/用户、容器与自身匿名卷。
+
+实例沿用 `BROKER_PERMISSION_TEST_BACKEND` 选择及自己的 venv；只接受已审核的
+Info/Knowledge/Investment 领域数据库策略。依次模板→Info→Knowledge→Investment，
+缺确认或未知策略必须失败，不跳过。若同时执行前述 broker/完整 Backend 门禁，仍须
+为 Info/Investment 指定其 s3/redis 辅助服务。该门禁不供给、更不轮换业务账号。
+
 ### 数据库分角色权限候选（B7o，尚未接部署）
 
 `runtime_database_policy.py` 提供模板当前六张表的纯 GRANT 编译函数，按实际迁移后的
