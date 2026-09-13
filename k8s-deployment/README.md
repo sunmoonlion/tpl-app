@@ -93,6 +93,20 @@ Worker 的 read 仍允许 purge，控制资源权限不能按 inspect/shutdown �
 不把资源 ACL 当成审批或 Worker 内部不可篡改机制。业务切换、重启后的 definitions
 一致性及旧连接撤销仍需独立批准和验收，不能直接对共享 broker 导入本候选输出。
 
+B7t 将同一门禁扩展为显式 Backend 目标：`BROKER_PERMISSION_TEST_BACKEND` 只允许当前
+工作区已初始化的同级 `<name>-app/<name>-backend/app`，默认仍为模板。必须使用目标
+Backend 自己的 `.venv/bin/python` 执行；application 模块在各自进程中加载，不混用四仓。
+`BROKER_PERMISSION_TEST_AUXILIARY=none|s3|redis` 指定完整回归需要的额外临时依赖，
+不接收外部服务 URL。Info 用 s3，Knowledge 用 none，Investment 用 redis；跨仓向量
+从所选 App 父仓读取，Agent PG 测试仍使用同一个随机测试容器而非业务数据库。
+
+`integration/broker_test_support.py` 不导入领域代码。S3 为兼容既有故障用例，只允许
+新容器占用回环 59039 和已声明的合成测试凭据；端口冲突失败，不复用未知服务。
+Redis 使用新随机密码和回环动态端口。两种辅助服务的启动/清理也有模板真实门禁。
+整个入口现包含 30 项 broker 权限场景、1 项零跳过完整回归、2 项辅助服务验收；
+故一次运行需授权临时 RabbitMQ/PostgreSQL/MinIO/Valkey 及其自身匿名卷的创建和清理。
+不能因文档说支持多个目标就并行跑实例，仍按模板→Info→Knowledge→Investment 串行。
+
 ### 数据库分角色权限候选（B7o，尚未接部署）
 
 `runtime_database_policy.py` 提供模板当前六张表的纯 GRANT 编译函数，按实际迁移后的

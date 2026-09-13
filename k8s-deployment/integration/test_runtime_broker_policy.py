@@ -23,11 +23,13 @@ from amqp.exceptions import AccessRefused, NotAllowed
 from kombu import Connection, Exchange, Producer, Queue
 
 DEPLOYMENT = Path(__file__).resolve().parents[1]
-BACKEND = DEPLOYMENT.parent / "tpl-backend/app"
 sys.path.insert(0, str(DEPLOYMENT))
-sys.path.insert(0, str(BACKEND))
+from broker_test_support import auxiliary_service, select_auxiliary, select_backend
 from runtime_broker_policy import broker_plan
 
+BACKEND = select_backend(DEPLOYMENT, os.environ.get("BROKER_PERMISSION_TEST_BACKEND"))
+AUXILIARY = select_auxiliary(os.environ.get("BROKER_PERMISSION_TEST_AUXILIARY", "none"))
+sys.path.insert(0, str(BACKEND))
 IMAGE = "sha256:ee10eb35bee296808f458c828ef7f581c15e4f18bcaf621742938b0897fcf718"
 
 
@@ -534,7 +536,7 @@ def test_actual_scheduler_publishes_without_consuming(instance, tmp_path):
             process.wait(timeout=5)
 
 
-def test_full_template_backend_gate_without_skips(instance, tmp_path):
+def test_full_backend_gate_without_skips(instance, tmp_path):
     """Regression suite uses its own test vhost and fresh PG, not runtime ACLs."""
     suffix = uuid4().hex
     password = secrets.token_urlsafe(24)
@@ -611,38 +613,44 @@ def test_full_template_backend_gate_without_skips(instance, tmp_path):
         env = {
             **os.environ,
             "DELIVERY_TEST_DATABASE_URL": database_url,
+            "AGENT_TEST_DATABASE_URL": database_url.replace(
+                "postgresql+asyncpg://", "postgresql://", 1
+            ),
             "CELERY_PROBE_TEST_BROKER_URL": broker_url,
             "WEB_INTERACTION_CONSUMER_VECTORS": str(
-                DEPLOYMENT.parent / "contracts/web-interaction-v1.consumer-vectors.json"
+                BACKEND.parent.parent
+                / "contracts/web-interaction-v1.consumer-vectors.json"
             ),
         }
         # Do not let the calling shell opt the ordinary baseline suite into the
         # restricted mode: the dedicated permission tests above exercise it.
         env.pop("CELERY_TASK_TOPOLOGY_PREDECLARED", None)
-        result = subprocess.run(
-            [
-                sys.executable,
-                "-m",
-                "pytest",
-                "tests",
-                "-q",
-                "-x",
-                f"--junitxml={report}",
-            ],
-            cwd=BACKEND,
-            env=env,
-            capture_output=True,
-            text=True,
-            timeout=180,
-            check=False,
-        )
-        if result.returncode != 0:
-            diagnostic = (
-                (result.stdout + result.stderr)
-                .replace(password, "<redacted>")
-                .replace(broker_password, "<redacted>")
+        with auxiliary_service(AUXILIARY, docker) as (extra_env, extra_secrets):
+            for key in ("ARTIFACT_TEST_S3_ENDPOINT", "AGENT_TEST_REDIS_URL"):
+                env.pop(key, None)
+            env.update(extra_env)
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "pytest",
+                    "tests",
+                    "-q",
+                    "-x",
+                    f"--junitxml={report}",
+                ],
+                cwd=BACKEND,
+                env=env,
+                capture_output=True,
+                text=True,
+                timeout=240,
+                check=False,
             )
-            raise AssertionError(diagnostic[-8000:])
+            if result.returncode != 0:
+                diagnostic = result.stdout + result.stderr
+                for secret in (password, broker_password, *extra_secrets):
+                    diagnostic = diagnostic.replace(secret, "<redacted>")
+                raise AssertionError(diagnostic[-8000:])
         suites = list(ET.parse(report).getroot())
         assert sum(int(row.attrib["skipped"]) for row in suites) == 0
         assert (
@@ -652,7 +660,9 @@ def test_full_template_backend_gate_without_skips(instance, tmp_path):
             )
             == 0
         )
-        print("template backend full gate:", result.stdout.strip().splitlines()[-1])
+        print(
+            f"{BACKEND.parent.name} full gate:", result.stdout.strip().splitlines()[-1]
+        )
     finally:
         assert (
             docker(
@@ -680,3 +690,15 @@ def test_full_template_backend_gate_without_skips(instance, tmp_path):
                 == ""
             )
         print(f"disposable PostgreSQL and volumes removed: {pg}")
+
+
+@pytest.mark.parametrize("kind", ["s3", "redis"])
+def test_auxiliary_support_startup_and_cleanup(broker, kind):
+    # broker fixture enforces explicit disposable-test authorization first.
+    with auxiliary_service(kind, docker) as (env, redactions):
+        if kind == "s3":
+            assert env == {"ARTIFACT_TEST_S3_ENDPOINT": "http://127.0.0.1:59039"}
+        else:
+            assert env["AGENT_TEST_REDIS_URL"].startswith("redis://:")
+            assert "@127.0.0.1:" in env["AGENT_TEST_REDIS_URL"]
+            assert len(redactions) == 1
