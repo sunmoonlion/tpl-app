@@ -67,6 +67,40 @@ CELERY_BROKER_URL。B7m 补齐 Worker 的 release-id 注解；最终渲染测试
 供给时仍须使用独立 principal，并执行独立撤销与最小权限验收；不要把旧共享凭据复制
 到几个新 key 当作隔离。该源码更新不改变既有 bundle 或集群。
 
+### 数据库分角色权限候选（B7o，尚未接部署）
+
+`runtime_database_policy.py` 提供模板当前六张表的纯 GRANT 编译函数，按实际迁移后的
+表/列清单精确匹配；未知、缺少或新增列均拒绝。API 的 Outbox UPDATE 仅授去重键列，
+供现有 ON CONFLICT 幂等复用；不能改状态/租约。Worker 负责消费/回执/租约/死信，
+不授删除回执/租约墓碑的权限；API/Worker 对版本表只读。Scheduler 不授 schema/表权限。
+这不是行级/租户授权，也不阻止 API 直接修改其已获授权的去重键；授权谓词仍由应用实现。
+
+**这不是现有数据库的迁移/撤权脚本。**编译器不连接数据库、不创建角色、不传密码、不改
+default ACL，也不验证当前角色继承/PUBLIC/owner 的有效权限。只能在外部供给已证明
+独立新身份、正确 owner、封闭 PUBLIC/默认权限后使用；给旧账号追加这些 GRANT 不会
+消除旧宽权限。当前没有 apply 入口，也没有接到 deploy.py，不能据候选测试宣称集群已修复。
+领域实例需要逐表/逐操作 overlay 和独立实测，禁止直接使用模板清单覆盖领域权限。
+
+普通门禁 `python3 -m unittest discover -s k8s-deployment/tests -q` 自动包含编译器测试。
+真实 PG 门禁在 `k8s-deployment/integration/test_runtime_database_policy_pg.py`，必须显式
+执行；未配置隔离环境确认时失败，不跳过。它只接受本机 `127.0.0.1:55439/backlog_tests`
+的测试管理员连接及 `RUNTIME_POLICY_TEST_CONFIRM=disposable-b7o-only`，还须先核对该
+端口确为获准一次性容器，而非仅凭端口名断言安全。URL 通过
+`RUNTIME_POLICY_TEST_DATABASE_URL` 供给，不写入仓库。
+
+在 tpl-app 根用 Backend 既有环境执行：
+
+```bash
+tpl-backend/app/.venv/bin/python -m pytest \
+  -c tpl-backend/app/pyproject.toml \
+  k8s-deployment/integration/test_runtime_database_policy_pg.py -q -x
+```
+
+门禁创建随机命名的测试库、四个独立 LOGIN/密码，使用迁移身份实际跑模板单链迁移，
+用 API/Worker 原 application 服务与真实 SQLSTATE 断言权限；测试结束逐个删除自身
+对象，不 FORCE、CASCADE 或终止其他连接。该测试供给 fixture 不是业务凭据供给器。
+目前尚未接远端 CI，不能把“有文件”写成每次提交已自动运行真实 PG 验收。
+
 ```bash
 chmod 600 /secure/path/tpl-backend.env
 python3 deploy.py plan --bundle /tmp/tpl-r3-bundle
