@@ -57,7 +57,7 @@ async def inventory(connection):
 
 @asynccontextmanager
 async def provision_database(backend, compiler, *, scope="b7o", uuid_extension=False):
-    assert scope in {"b7o", "b7p"}
+    assert scope in {"b7o", "b7p", "b7q"}
     assert os.environ.get("RUNTIME_POLICY_TEST_CONFIRM") == f"disposable-{scope}-only"
     url = make_url(os.environ["RUNTIME_POLICY_TEST_DATABASE_URL"])
     assert (url.host, url.port, url.database, url.username) == (

@@ -106,6 +106,8 @@ tpl-backend/app/.venv/bin/python -m pytest \
 同名 `app` 包互相污染。模板确认域仍为 `disposable-b7o-only`；Info 使用
 `disposable-b7p-only`，以及仅在新测试库中创建 `uuid-ossp` 的显式选项（旧迁移需要）。
 两者共用上述精确端口/测试库与清理规则，不为业务环境提供 apply 入口。
+Knowledge 验证使用独立确认域 `disposable-b7q-only`；同样仅连接获准的一次性 PG，
+复用公共工具而不导入其他 App 的业务包。
 
 ```bash
 chmod 600 /secure/path/tpl-backend.env
