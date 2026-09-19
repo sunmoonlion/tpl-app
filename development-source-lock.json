@@ -3,26 +3,26 @@
   "kind": "development-source-lock",
   "repository": "tpl-app",
   "formal_release": false,
-  "task": "durable-delivery-luna-20260911",
-  "release_boundary": "Source-only development candidate; historical formal release and deployed images are unchanged.",
+  "task": "B7-B9-closeout-kind-20260919",
+  "release_boundary": "Immutable development candidate source; actual deployment requires the matching KIND release, prepared independent identities, and verified quiescent backup.",
   "components": [
     {
       "path": "tpl-backend",
-      "commit": "ca67032502a7507986f175b17967db624644f1a5",
-      "tree": "01fc942a4c80dbb6764a371a4008ab273b764088",
-      "remote_branch": "origin/luna/durable-delivery-20260911-local"
+      "commit": "6674125cd1c14d9700c707b0b0f4b5d422d42f05",
+      "tree": "40babf72a2f41d5705cb6e5012cb1e18be66b072",
+      "remote_branch": "origin/master"
     },
     {
       "path": "tpl-admin-frontend",
-      "commit": "3c8727fc827dddab875bfe65e7d46210cd588c66",
-      "tree": "151457c71dd722b05d3b497d51c29cadac790882",
-      "remote_branch": "origin/luna/durable-delivery-20260911-local"
+      "commit": "ee1f542220386e15c8f97c6e40e317caf3c2e9e7",
+      "tree": "28b97a5121c693797fafc779fa9c8a1325cb5923",
+      "remote_branch": "origin/master"
     },
     {
       "path": "tpl-web-frontend",
-      "commit": "1ba9467e5e382f180585a34070f11e8ffb5c9f9e",
-      "tree": "f7c785fc764bc244fee55765e961ebab96a3c94f",
-      "remote_branch": "origin/luna/durable-delivery-20260911-local"
+      "commit": "45ceed1a147cadb6dfd1b8a72b79ff5a266854bd",
+      "tree": "938bf09c4585fe6251b430fd15825e2fb4ed1799",
+      "remote_branch": "origin/master"
     }
   ]
 }
