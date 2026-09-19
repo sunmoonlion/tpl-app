@@ -83,6 +83,8 @@ python3 verify_template_release.py
 
 正式部署镜像必须使用 `repository@sha256:...`，不能使用可变 tag。R3/R4 的冻结模板 release
 仍由 `template-release-manifest.json` 描述；该文件记录历史验收对象，不随父仓清理而重写。
+其中 `test_evidence` 是当时的路径，不保证在当前工作树存在；按 K8s 仓库
+`sunmoonai/docs/legacy-backlog/verification-index.md` 的固定 Git 版本读取完整原文。
 
 开发环境晋级生产的配置分层、Secret、PVC 和完整切换检查表见
 [dev-to-prod-deploy](dev-to-prod-deploy/README.md)。
