@@ -9,6 +9,7 @@ import base64
 import copy
 import hashlib
 import re
+from urllib.parse import quote
 
 from runtime_broker_policy import broker_plan
 
@@ -61,3 +62,32 @@ def merge_definitions(existing, *, vhost, queue, principals, users, retire_users
     result["permissions"] = [row for row in result["permissions"]
                               if not(row["vhost"]==vhost and row["user"] in retire_users)]
     return result
+
+
+def preparation_plan(startup, live, *, vhost, queue, principals, users):
+    """Fresh users + exact permissions only; existing live topology must match.
+
+    Startup is a merge with all non-target values preserved. Live execution is
+    six narrowly addressed PUTs, never a whole-cluster definitions import.
+    Caller owns compare-and-swap persistence, exclusive reservation, backups,
+    rechecking fresh names, auth probes and stopping on any uncertain result.
+    """
+    names = set(principals.values())
+    for current in (startup, live):
+        if any(row.get("name") in names for row in current.get("users", [])) or any(
+                row.get("user") in names for row in current.get("permissions", [])):
+            raise ValueError("cutover user already exists; no overwrite or automatic retry")
+    args = dict(vhost=vhost, queue=queue, principals=principals, users=users)
+    merged_live = merge_definitions(live, **args)
+    for kind in ("vhosts", "queues", "exchanges", "bindings"):
+        if merged_live[kind] != live.get(kind, []):
+            raise ValueError("live task topology must already match the reviewed plan")
+    merged_startup = merge_definitions(startup, **args)
+    operations = []
+    for user in users:
+        operations.append({"method": "PUT", "path": "users/" + quote(user["name"], safe=""),
+                           "body": {key: value for key, value in user.items() if key != "name"}})
+    for permission in broker_plan(vhost, queue, principals)["permissions"]:
+        operations.append({"method": "PUT", "path": "permissions/" + quote(vhost, safe="") + "/" + quote(permission["user"], safe=""),
+                           "body": {key: permission[key] for key in ("configure", "write", "read")}})
+    return {"startup": merged_startup, "operations": operations}

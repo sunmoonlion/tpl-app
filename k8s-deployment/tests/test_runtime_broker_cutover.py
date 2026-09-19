@@ -51,3 +51,25 @@ class BrokerCutoverTest(unittest.TestCase):
         args["users"][0]["tags"]=["administrator"]
         with self.assertRaises(ValueError):
             target.merge_definitions({},**args)
+
+    def test_live_preparation_is_narrow_and_requires_existing_topology(self):
+        args = self.args()
+        live = target.broker_plan(args["vhost"], args["queue"], args["principals"])
+        live["permissions"] = []
+        original = copy.deepcopy(live)
+        result = target.preparation_plan(self.existing(), live, **args)
+        self.assertEqual(live, original)
+        self.assertEqual(len(result["operations"]), 6)
+        self.assertTrue(all(op["method"] == "PUT" for op in result["operations"]))
+        self.assertEqual([op["path"].split("/")[0] for op in result["operations"]],
+                         ["users"] * 3 + ["permissions"] * 3)
+        for kind in ("queues", "exchanges", "bindings", "vhosts"):
+            broken = copy.deepcopy(live)
+            broken[kind] = []
+            with self.assertRaisesRegex(ValueError, "topology"):
+                target.preparation_plan({}, broken, **args)
+        for field, row in (("users", args["users"][0]), ("permissions", {"user": args["users"][0]["name"]})):
+            broken = copy.deepcopy(live)
+            broken.setdefault(field, []).append(row)
+            with self.assertRaisesRegex(ValueError, "already exists"):
+                target.preparation_plan({}, broken, **args)
