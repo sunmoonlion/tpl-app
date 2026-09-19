@@ -201,8 +201,28 @@ def broker():
                     role: f"amqp://{user}:{passwords[role]}@{amqp_address}/{vhost}"
                     for role, user in names.items()
                 }
+
+                def refresh_endpoints():
+                    # Docker may reallocate ephemeral host ports after restart.
+                    nonlocal amqp_address, http_address
+                    new_amqp = docker("port", container, "5672").strip()
+                    new_http = docker("port", container, "15672").strip()
+                    assert new_amqp.startswith("127.0.0.1:")
+                    assert new_http.startswith("127.0.0.1:")
+                    print(
+                        f"broker endpoints: {amqp_address}/{http_address} -> {new_amqp}/{new_http}"
+                    )
+                    amqp_address, http_address = new_amqp, new_http
+                    client.base_url = f"http://{new_http}/api/"
+                    for role, user in names.items():
+                        urls[role] = (
+                            f"amqp://{user}:{passwords[role]}@{new_amqp}/{vhost}"
+                        )
+
                 try:
                     yield BrokerInstance(
+                        container=container,
+                        refresh_endpoints=refresh_endpoints,
                         vhost=vhost,
                         queue=queue,
                         names=names,

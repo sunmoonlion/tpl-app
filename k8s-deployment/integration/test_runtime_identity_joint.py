@@ -129,7 +129,7 @@ def postgres():
                 "RUNTIME_POLICY_TEST_DATABASE_URL",
                 f"postgresql+asyncpg://postgres:{password}@127.0.0.1:55439/backlog_tests",
             )
-            yield
+            yield container
     finally:
         assert (
             docker(

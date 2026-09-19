@@ -134,6 +134,30 @@ Info/Knowledge/Investment 领域数据库策略。依次模板→Info→Knowledg
 缺确认或未知策略必须失败，不跳过。若同时执行前述 broker/完整 Backend 门禁，仍须
 为 Info/Investment 指定其 s3/redis 辅助服务。该门禁不供给、更不轮换业务账号。
 
+### 身份生命周期与恢复演练（B7v，尚未接部署）
+
+`integration/test_runtime_identity_lifecycle.py` 使用上述相同确认开关与 Backend 选择，
+覆盖重复 GRANT/definitions、未知新表拒绝、PG NOLOGIN 后旧连接继续存活及精确排空、
+真实 pg_dump/pg_restore、broker 容器重启后权限/拓扑/持久消息保留，以及撤权、
+关闭旧 AMQP 连接、新登录拒绝和重新应用原权限后的恢复。
+
+```bash
+JOINT_RUNTIME_TEST_CONFIRM=disposable-b7u-only \
+BROKER_PERMISSION_TEST_CONFIRM=disposable-b7s-only \
+  tpl-backend/app/.venv/bin/python -m pytest -c tpl-backend/app/pyproject.toml \
+  k8s-deployment/integration/test_runtime_identity_lifecycle.py -q -s
+```
+
+六项测试仍只使用自己新建的 PG/broker；模板→Info→Knowledge→Investment 串行运行，
+实例使用自己的 venv 和 `BROKER_PERMISSION_TEST_BACKEND`。测试容器重启可能改变
+Docker 回环动态端口，夹具重新读取端口；不把旧端口连接失败当作权限拒绝。
+AMQP 主动关闭必须接收 Connection.Close 并完成 Close-Ok，再核管理面连接消失。
+
+恢复测试核所有实际业务表的结构/数据，但非空数据只含合成 Outbox/Inbox 与迁移版本；
+不代表完整领域数据、对象存储或外部副作用恢复。角色/密码和数据库 CONNECT 需单独供给，
+不在单库 pg_dump 中。broker 重启证明该临时容器的数据持久性，不替代业务集群启动
+definitions/Secret 同步、旧账号窗口、RPO/RTO 或切换验收；不得据此轮换业务凭据。
+
 ### 数据库分角色权限候选（B7o，尚未接部署）
 
 `runtime_database_policy.py` 提供模板当前六张表的纯 GRANT 编译函数，按实际迁移后的
