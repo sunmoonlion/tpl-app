@@ -5,7 +5,7 @@
 
 **动代码前必读**——代码必须符合的规则（39 条，按主题分组）：
 
-`../k8s/sunmoonai/docs/dev-agent/SDD/constraints.md`
+`../k8s/sunmoonai/docs/dev-agent/rules/constraints.md`
 
 违反其中任一条的方案不进入讨论。用法见该文件「怎么用」。
 
@@ -27,6 +27,6 @@
 
 涉及人的批准、裁量或终审时，同时读取（人介入、权力表、审批档位）：
 
-`../k8s/sunmoonai/docs/dev-agent/SDD/modules/0001-backend/SDD/agent-dev-guide.md`
+`../k8s/sunmoonai/docs/dev-agent/SDD/modules/0001-backend/rules/agent-dev-guide.md`
 
 不在此复述其中规则。
