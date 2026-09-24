@@ -101,4 +101,10 @@ class InventoryTest(unittest.TestCase):
         inherited["roles"][2]["inherit"] = True
         with self.assertRaises(PolicyError):
             validate_upgrade(inherited, **args)
+        retired, args = self.upgrade_fixture()
+        retired["roles"][0]["login"] = False  # sample_old retired with NOLOGIN: accepted
+        validate_upgrade(retired, **args)
+        retired["roles"][2]["login"] = False  # a runtime identity without LOGIN is not
+        with self.assertRaises(PolicyError):
+            validate_upgrade(retired, **args)
 

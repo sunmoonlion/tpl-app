@@ -93,7 +93,9 @@ def validate_upgrade(inventory, *, database, head, principals, old_login,
     if len(roles) != len(inventory["roles"]) or set(roles) != {old_login, migration, *runtime}:
         raise PolicyError("runtime identities must already exist for an upgrade")
     for role in roles.values():
-        if not role["login"] or any(role[key] for key in ("super", "create_db", "create_role", "replication", "bypass_rls")):
+        # The old login is normally retired (NOLOGIN) by then; everything else must log in.
+        if (role["name"] != old_login and not role["login"]) or any(
+                role[key] for key in ("super", "create_db", "create_role", "replication", "bypass_rls")):
             raise PolicyError("unexpected role attributes")
         if role["name"] in runtime and role.get("inherit", False):
             raise PolicyError("runtime identities must not inherit")
