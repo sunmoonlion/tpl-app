@@ -37,6 +37,8 @@ BASE_KEYS = {
     "ADMIN_REPLICAS",
     "WEB_REPLICAS",
 }
+# Optional: Apps without a runner role omit it; the release then carries 0.
+OPTIONAL_BASE_KEYS = {"RUNNER_REPLICAS"}
 PROFILE_KEYS = {
     "PROFILE_VERSION",
     "PROFILE_ENABLED",
@@ -104,7 +106,9 @@ def _integer(config: dict[str, str], key: str, minimum: int, maximum: int) -> in
 
 
 def load_base(path: Path) -> dict[str, str]:
-    config = load_conf(path, allowed=BASE_KEYS, required=BASE_KEYS)
+    config = load_conf(
+        path, allowed=BASE_KEYS | OPTIONAL_BASE_KEYS, required=BASE_KEYS
+    )
     if config["CONFIG_VERSION"] != "1":
         raise ConfigError("unsupported CONFIG_VERSION")
     if not re.fullmatch(r"[a-z][a-z0-9-]{1,23}", config["APP"]):
@@ -119,6 +123,8 @@ def load_base(path: Path) -> dict[str, str]:
         "WEB_REPLICAS",
     ):
         _integer(config, key, 1, 20)
+    if "RUNNER_REPLICAS" in config:
+        _integer(config, "RUNNER_REPLICAS", 0, 20)
     return config
 
 
@@ -174,6 +180,8 @@ def validate_release(config: dict[str, str], release: dict[str, Any]) -> None:
             "WEB_REPLICAS": replicas.get(f"{resource_app}-web-frontend"),
         }
     )
+    if "RUNNER_REPLICAS" in config:
+        expected["RUNNER_REPLICAS"] = replicas.get(f"{resource_app}-backend-runner")
     mismatches = {
         key: {"config": config[key], "release": value}
         for key, value in expected.items()

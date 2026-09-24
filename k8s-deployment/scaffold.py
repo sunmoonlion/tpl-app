@@ -68,6 +68,24 @@ def render(template: str, values: dict[str, str]) -> str:
     return result
 
 
+RUNNER_RESOURCE_SUFFIXES = ("-backend-runner", "-backend-runner-egress")
+
+
+def drop_runner_role(content: str, app: str) -> str:
+    """Apps without a runner (``--runner-replicas 0``) get no runner resources at all.
+
+    Text-level so the remaining documents keep their exact bytes (bundle hashes).
+    """
+    names = {f"  name: {app}{suffix}" for suffix in RUNNER_RESOURCE_SUFFIXES}
+    kept: list[str] = []
+    for document in content.split("\n---\n"):
+        head = document.split("\nspec:", 1)[0]
+        if any(line in names for line in head.splitlines()):
+            continue
+        kept.append(document)
+    return "\n---\n".join(kept)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--app", required=True)
@@ -98,6 +116,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--web-application")
     parser.add_argument("--api-replicas", type=int, default=2)
     parser.add_argument("--worker-replicas", type=int, default=1)
+    parser.add_argument("--runner-replicas", type=int, default=0)
     parser.add_argument("--admin-replicas", type=int, default=2)
     parser.add_argument("--web-replicas", type=int, default=2)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -123,6 +142,8 @@ def main() -> int:
     for field in ("api_replicas", "worker_replicas", "admin_replicas", "web_replicas"):
         if not 1 <= getattr(args, field) <= 20:
             raise ValueError(f"{field.replace('_', '-')} must be between 1 and 20")
+    if not 0 <= args.runner_replicas <= 20:
+        raise ValueError("runner-replicas must be between 0 and 20")
 
     admin_origin, admin_host = strict_origin(
         args.admin_origin, field="admin-origin"
@@ -173,6 +194,7 @@ def main() -> int:
         "WEB_APPLICATION": args.web_application or f"sunmoonai-{app}-web",
         "API_REPLICAS": str(args.api_replicas),
         "WORKER_REPLICAS": str(args.worker_replicas),
+        "RUNNER_REPLICAS": str(args.runner_replicas),
         "ADMIN_REPLICAS": str(args.admin_replicas),
         "WEB_REPLICAS": str(args.web_replicas),
     }
@@ -181,6 +203,8 @@ def main() -> int:
         source = TEMPLATE_DIR / f"{filename}.tpl"
         target = output / filename
         content = render(source.read_text(encoding="utf-8"), values)
+        if args.runner_replicas == 0:
+            content = drop_runner_role(content, app)
         target.write_text(content, encoding="utf-8")
         hashes[filename] = hashlib.sha256(content.encode()).hexdigest()
 

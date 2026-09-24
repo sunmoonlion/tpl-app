@@ -73,6 +73,35 @@ class DeploymentConfigTest(unittest.TestCase):
             }
             CONFIG.validate_release(config, release)
 
+    def test_runner_replicas_is_optional_and_checked_when_present(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "deploy.conf"
+            path.write_text(self.base_text() + "RUNNER_REPLICAS=1\n", encoding="utf-8")
+            config = CONFIG.load_base(path)
+            release = {
+                "logical_app": "demo",
+                "resource_app": "demo-r5",
+                "namespace": "demo-system",
+                "release_id": "demo-001",
+                "images": {key: config[f"{key.upper()}_IMAGE"] for key in ("backend", "admin", "web")},
+                "origins": {key: config[f"{key.upper()}_ORIGIN"] for key in ("admin", "web", "casdoor")},
+                "deployment_replicas": {
+                    "demo-r5-backend-api": 2,
+                    "demo-r5-backend-worker": 1,
+                    "demo-r5-backend-scheduler": 1,
+                    "demo-r5-backend-runner": 1,
+                    "demo-r5-admin-frontend": 2,
+                    "demo-r5-web-frontend": 2,
+                },
+            }
+            CONFIG.validate_release(config, release)
+            release["deployment_replicas"]["demo-r5-backend-runner"] = 0
+            with self.assertRaisesRegex(CONFIG.ConfigError, "RUNNER_REPLICAS"):
+                CONFIG.validate_release(config, release)
+            path.write_text(self.base_text() + "RUNNER_REPLICAS=21\n", encoding="utf-8")
+            with self.assertRaisesRegex(CONFIG.ConfigError, "RUNNER_REPLICAS"):
+                CONFIG.load_base(path)
+
     def test_repository_example_uses_the_strict_schema(self):
         config = CONFIG.load_base(
             ROOT / "config-example" / "deploy-demo-app-all.conf"

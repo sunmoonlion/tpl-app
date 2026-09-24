@@ -429,6 +429,113 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: __APP__-backend-runner
+  namespace: __NAMESPACE__
+  labels:
+    app.kubernetes.io/name: __APP__-backend
+    app.kubernetes.io/component: backend-runner
+    app.kubernetes.io/part-of: __APP__
+    sunmoonai.com/app: __APP__
+    sunmoonai.com/managed-by: app-platform-v2
+spec:
+  # One runner per App in phase 1 (no sharding); the App overlay sets 0 when it has no runner.
+  replicas: __RUNNER_REPLICAS__
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      sunmoonai.com/app: __APP__
+      app.kubernetes.io/component: backend-runner
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: __APP__-backend
+        app.kubernetes.io/component: backend-runner
+        app.kubernetes.io/part-of: __APP__
+        sunmoonai.com/app: __APP__
+        sunmoonai.com/managed-by: app-platform-v2
+      annotations:
+        sunmoonai.com/release-id: __RELEASE_ID__
+    spec:
+      serviceAccountName: __APP__-backend-runner
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 60
+      imagePullSecrets:
+        - name: __IMAGE_PULL_SECRET__
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: runner
+          image: __BACKEND_IMAGE__
+          imagePullPolicy: IfNotPresent
+          command: ["python", "-m", "app.bootstrap.runner"]
+          envFrom:
+            - configMapRef:
+                name: __APP__-backend-config
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: WORKBENCH_RUNNER_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            # The runner shares the api runtime identity (same tables, same Redis prefix).
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: __APP__-backend-runtime
+                  key: API_DATABASE_URL
+            - name: CELERY_BROKER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: __APP__-backend-runtime
+                  key: API_CELERY_BROKER_URL
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: __APP__-backend-runner
+  namespace: __NAMESPACE__
+  labels:
+    sunmoonai.com/app: __APP__
+    sunmoonai.com/managed-by: app-platform-v2
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      sunmoonai.com/app: __APP__
+      app.kubernetes.io/component: backend-runner
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: __APP__-admin-frontend
   namespace: __NAMESPACE__
   labels:

@@ -40,6 +40,16 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: ServiceAccount
 metadata:
+  name: __APP__-backend-runner
+  namespace: __NAMESPACE__
+  labels:
+    sunmoonai.com/app: __APP__
+    sunmoonai.com/managed-by: app-platform-v2
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
   name: __APP__-backend-migration
   namespace: __NAMESPACE__
   labels:

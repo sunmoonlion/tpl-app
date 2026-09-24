@@ -257,6 +257,43 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  name: __APP__-backend-runner-egress
+  namespace: __NAMESPACE__
+  labels:
+    sunmoonai.com/app: __APP__
+    sunmoonai.com/managed-by: app-platform-v2
+spec:
+  podSelector:
+    matchLabels:
+      sunmoonai.com/app: __APP__
+      app.kubernetes.io/component: backend-runner
+  policyTypes: ["Egress"]
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              sunmoonai.com/backend-dependency: __APP__
+      ports:
+        - {protocol: TCP, port: 5432}
+        - {protocol: TCP, port: 6379}
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              sunmoonai.com/data-platform: "true"
+      ports:
+        - {protocol: TCP, port: 5432}
+        - {protocol: TCP, port: 6379}
+    # Sandbox pool: the runner is the only client of each user's app-server (0003-sandbox).
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              sunmoonai.com/sandbox-pool: "true"
+      ports:
+        - {protocol: TCP, port: 47800}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
   name: __APP__-backend-migration-egress
   namespace: __NAMESPACE__
   labels:

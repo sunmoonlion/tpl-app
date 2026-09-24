@@ -69,13 +69,47 @@ class ScaffoldTest(unittest.TestCase):
             for role in ("API", "WORKER", "SCHEDULER"):
                 self.assertIn(f"key: {role}_DATABASE_URL", runtime)
                 self.assertIn(f"key: {role}_CELERY_BROKER_URL", runtime)
+            # runner role is opt-in: with the default 0 replicas no runner resource is rendered
+            self.assertNotIn("backend-runner", runtime)
+            self.assertNotIn("backend-runner", prerequisites)
             self.assertIn('CELERY_WORKER_CONCURRENCY: "2"', prerequisites)
             self.assertIn(
                 '--concurrency="${CELERY_WORKER_CONCURRENCY}"', runtime
             )
             policies = (output / "30-network-policies.yaml").read_text()
             self.assertIn("kubernetes.io/metadata.name: identity-system", policies)
+            self.assertNotIn("backend-runner", policies)
             self.assertIn("app: casdoor-sunmoonai", policies)
+
+    def test_runner_role_renders_when_enabled(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "bundle"
+            subprocess.run(self.command(output) + ["--runner-replicas", "1"], check=True, capture_output=True)
+            prerequisites = (output / "00-prerequisites.yaml").read_text()
+            runtime = (output / "20-runtime.yaml").read_text()
+            policies = (output / "30-network-policies.yaml").read_text()
+            self.assertIn("name: demo-backend-runner\n", prerequisites)  # ServiceAccount
+            runner = runtime.split("name: demo-backend-runner\n", 1)[1].split("---", 1)[0]
+            self.assertIn("replicas: 1", runner)
+            self.assertIn("type: Recreate", runner)
+            self.assertIn("app.bootstrap.runner", runner)
+            self.assertIn("key: API_DATABASE_URL", runner)  # shares the api identity
+            self.assertNotIn("RUNNER_DATABASE_URL", runtime)
+            self.assertNotIn("kind: HorizontalPodAutoscaler\nmetadata:\n  name: demo-backend-runner", runtime)
+            self.assertIn("name: demo-backend-runner-egress", policies)
+            self.assertIn('sunmoonai.com/sandbox-pool: "true"', policies)
+            # the other documents are byte-identical to the default render
+            default = Path(directory) / "default"
+            subprocess.run(self.command(default), check=True, capture_output=True)
+            for name in ("10-migration.yaml", "40-ingress.yaml"):
+                self.assertEqual((output / name).read_bytes(), (default / name).read_bytes())
+
+    def test_runner_replicas_are_bounded(self):
+        with tempfile.TemporaryDirectory() as directory:
+            command = self.command(Path(directory) / "bundle") + ["--runner-replicas", "21"]
+            result = subprocess.run(command, check=False, capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("runner-replicas", result.stderr)
 
     def test_rejects_mutable_image_tag(self):
         with tempfile.TemporaryDirectory() as directory:
