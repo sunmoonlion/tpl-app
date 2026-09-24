@@ -108,3 +108,36 @@ def retirement_sql(*, database, old_logins, legacy_grantees):
         statements.append(f"ALTER ROLE {identifier(old)} NOLOGIN")
     statements.append("COMMIT")
     return ";\n".join(statements) + ";\n"
+
+
+def upgrade_sql(*, database, principals, grant_statements):
+    """Image-only upgrade after a migration: re-apply the reviewed additive grants
+    to the EXISTING runtime identities. No role creation, no password, no default
+    ACL change, no retirement. Same transaction layout as ``cutover_sql`` so the
+    activation's inventory guard can be inserted after the search_path line.
+    """
+    db = identifier(database)
+    if set(principals) != ROLES or len(set(principals.values())) != 4:
+        raise PolicyError("four distinct principals required")
+    names = {role: identifier(name) for role, name in principals.items()}
+    runtime = ROLES - {"migration"}
+    if not grant_statements or any(not s.startswith("GRANT ") or ";" in s
+                                   or not any(s.endswith(" TO " + names[r]) for r in runtime)
+                                   for s in grant_statements):
+        raise PolicyError("unreviewed grants")
+    runtime_literals = ",".join("'" + principals[r] + "'" for r in sorted(runtime))
+    statements = ["BEGIN", "SET LOCAL lock_timeout='5s'", "SET LOCAL statement_timeout='30s'",
+                  "SET LOCAL search_path=pg_catalog",
+                  "DO $check$ BEGIN "
+                  f"IF current_database() <> '{database}' THEN RAISE EXCEPTION 'wrong upgrade database'; END IF; "
+                  f"IF (SELECT count(*) FROM pg_roles WHERE rolname IN ({runtime_literals})) <> 3 "
+                  "THEN RAISE EXCEPTION 'runtime identities missing'; END IF; "
+                  "IF EXISTS (SELECT 1 FROM pg_auth_members m JOIN pg_roles r ON r.oid=m.member "
+                  f"WHERE r.rolname IN ({runtime_literals})) THEN RAISE EXCEPTION 'unexpected role membership'; END IF; "
+                  "END $check$"]
+    for role in sorted(runtime):
+        statements.append(f"GRANT CONNECT ON DATABASE {db} TO {names[role]}")
+    statements.extend(grant_statements)
+    statements.append("COMMIT")
+    return ";\n".join(statements) + ";\n"
+

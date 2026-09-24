@@ -4,7 +4,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from runtime_database_inventory import validate_bootstrap, PolicyError
+from runtime_database_inventory import validate_bootstrap, validate_upgrade, PolicyError
 
 
 class InventoryTest(unittest.TestCase):
@@ -71,3 +71,34 @@ class InventoryTest(unittest.TestCase):
         inventory["roles"][1]["super"] = True
         with self.assertRaises(PolicyError):
             validate_bootstrap(inventory, **args)
+
+    def upgrade_fixture(self):
+        inventory, args = self.fixture()
+        for role in ("api", "worker", "scheduler"):
+            inventory["roles"].append(inventory["roles"][0] | {"name": "sample_" + role, "inherit": False})
+        inventory["acl_grantees"] = [{"grantee": "sample_api"}, {"grantee": "sample_worker"}, {"grantee": "sample_migration"}]
+        return inventory, args
+
+    def test_upgrade_requires_existing_runtime_identities_and_stays_strict(self):
+        inventory, args = self.upgrade_fixture()
+        self.assertEqual(validate_upgrade(inventory, **args),
+                         {"acl_creators": ["sample_migration"], "legacy_grantees": ["sample_old"]})
+        # the bootstrap validator refuses this same inventory (roles already exist)
+        with self.assertRaises(PolicyError):
+            validate_bootstrap(inventory, **args)
+        for field, value in (("roles", inventory["roles"][:2]),
+                             ("acl_grantees", [{"grantee": "foreign"}]),
+                             ("memberships", [{"role": "sample_api", "member": "sample_worker"}]),
+                             ("relations", [{"owner": "sample_migration", "kind": "S", "rls": False}]),
+                             ("activity", [{"user": "sample_api", "database": "sample_db"}]),
+                             ("column_acl", [{"table": "t", "column": "c", "acl": ["sample_old=r/sample_migration"]}]),
+                             ("revisions", ["older-head"])):
+            broken, args = self.upgrade_fixture()
+            broken[field] = value
+            with self.subTest(field=field), self.assertRaises(PolicyError):
+                validate_upgrade(broken, **args)
+        inherited, args = self.upgrade_fixture()
+        inherited["roles"][2]["inherit"] = True
+        with self.assertRaises(PolicyError):
+            validate_upgrade(inherited, **args)
+

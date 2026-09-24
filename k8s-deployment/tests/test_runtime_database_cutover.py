@@ -51,3 +51,21 @@ class CutoverTest(unittest.TestCase):
         self.assertIn('ALTER ROLE "sample_old" NOLOGIN',sql)
         self.assertIn('REVOKE ALL ON DATABASE "sample_admin" FROM "sample_old"',sql)
         self.assertNotIn("DROP ",sql)
+
+    def test_upgrade_reapplies_reviewed_grants_without_creating_roles(self):
+        args = self.args()
+        sql = target.upgrade_sql(database=args["database"], principals=args["principals"],
+                                 grant_statements=args["grant_statements"])
+        self.assertTrue(sql.startswith("BEGIN;"))
+        self.assertTrue(sql.endswith("COMMIT;\n"))
+        self.assertIn("SET LOCAL search_path=pg_catalog;\n", sql)
+        self.assertLess(sql.index("runtime identities missing"), sql.index("GRANT "))
+        for forbidden in ("CREATE ROLE", "PASSWORD", "ALTER DEFAULT PRIVILEGES", "REVOKE", "NOLOGIN",
+                          "DROP ", "DELETE ", "TRUNCATE ", "CASCADE"):
+            self.assertNotIn(forbidden, sql)
+        self.assertIn('GRANT CONNECT ON DATABASE "sample_admin" TO "sample_api"', sql)
+        for bad in ([], ['GRANT SELECT ON x TO "sample_api"; DROP DATABASE y'], ['REVOKE ALL ON x FROM "sample_api"'],
+                    ['GRANT SELECT ON x TO "sample_migration"']):
+            with self.subTest(bad=bad), self.assertRaises(policy.PolicyError):
+                target.upgrade_sql(database=args["database"], principals=args["principals"], grant_statements=bad)
+
