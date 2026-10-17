@@ -1,7 +1,7 @@
 # 项目入口指针
 
 本仓是 SunMoonAI 平台五个协作仓之一（`tpl-app` / `knowfeed-app` / `knowbase-app` /
-`investment-app` / `k8s`，**必须并列放置**）。
+`knowbench-app` / `k8s`，**必须并列放置**）。
 
 **先读这一份**——我们在建什么、做到哪了：
 

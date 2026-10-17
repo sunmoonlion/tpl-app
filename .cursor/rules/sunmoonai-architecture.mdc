@@ -10,4 +10,4 @@ alwaysApply: true
 
 我们在建什么、做到哪了 → `../k8s/docs/dev-investment-agent/pipeline.md`；要建什么 → `../k8s/docs/dev-investment-agent/tree-build/PRD/requirement.md`。
 
-五仓（tpl-app / knowfeed-app / knowbase-app / investment-app / k8s）必须并列放置。
+五仓（tpl-app / knowfeed-app / knowbase-app / knowbench-app / k8s）必须并列放置。

@@ -97,7 +97,7 @@ B7t 将同一门禁扩展为显式 Backend 目标：`BROKER_PERMISSION_TEST_BACK
 工作区已初始化的同级 `<name>-app/<name>-backend/app`，默认仍为模板。必须使用目标
 Backend 自己的 `.venv/bin/python` 执行；application 模块在各自进程中加载，不混用四仓。
 `BROKER_PERMISSION_TEST_AUXILIARY=none|s3|redis` 指定完整回归需要的额外临时依赖，
-不接收外部服务 URL。Info 用 s3，Knowledge 用 none，Investment 用 redis；Web 交互
+不接收外部服务 URL。Info 用 s3，Knowledge 用 none，Knowbench 用 redis；Web 交互
 向量始终读取模板父仓的共享真源，不假设实例有副本。Agent PG 测试仍使用同一个随机
 测试容器而非业务数据库。
 
@@ -106,7 +106,7 @@ Backend 自己的 `.venv/bin/python` 执行；application 模块在各自进程�
 Redis 使用新随机密码和回环动态端口。两种辅助服务的启动/清理也有模板真实门禁。
 整个入口现包含 30 项 broker 权限场景、1 项零跳过完整回归、2 项辅助服务验收；
 故一次运行需授权临时 RabbitMQ/PostgreSQL/MinIO/Valkey 及其自身匿名卷的创建和清理。
-不能因文档说支持多个目标就并行跑实例，仍按模板→Info→Knowledge→Investment 串行。
+不能因文档说支持多个目标就并行跑实例，仍按模板→Info→Knowledge→Knowbench 串行。
 
 ### 数据库与 broker 联合运行门禁（B7u，尚未接部署）
 
@@ -130,9 +130,9 @@ PG 仅新建本地一次性容器，绑定回环 55439；端口冲突失败并�
 Worker 进程组。退出精确清理随机数据库/角色、broker vhost/用户、容器与自身匿名卷。
 
 实例沿用 `BROKER_PERMISSION_TEST_BACKEND` 选择及自己的 venv；只接受已审核的
-Info/Knowledge/Investment 领域数据库策略。依次模板→Info→Knowledge→Investment，
+Info/Knowledge/Knowbench 领域数据库策略。依次模板→Info→Knowledge→Knowbench，
 缺确认或未知策略必须失败，不跳过。若同时执行前述 broker/完整 Backend 门禁，仍须
-为 Info/Investment 指定其 s3/redis 辅助服务。该门禁不供给、更不轮换业务账号。
+为 Info/Knowbench 指定其 s3/redis 辅助服务。该门禁不供给、更不轮换业务账号。
 
 ### 身份生命周期与恢复演练（B7v，尚未接部署）
 
@@ -148,7 +148,7 @@ BROKER_PERMISSION_TEST_CONFIRM=disposable-b7s-only \
   k8s-deployment/integration/test_runtime_identity_lifecycle.py -q -s
 ```
 
-六项测试仍只使用自己新建的 PG/broker；模板→Info→Knowledge→Investment 串行运行，
+六项测试仍只使用自己新建的 PG/broker；模板→Info→Knowledge→Knowbench 串行运行，
 实例使用自己的 venv 和 `BROKER_PERMISSION_TEST_BACKEND`。测试容器重启可能改变
 Docker 回环动态端口，夹具重新读取端口；不把旧端口连接失败当作权限拒绝。
 AMQP 主动关闭必须接收 Connection.Close 并完成 Close-Ok，再核管理面连接消失。
@@ -199,7 +199,7 @@ tpl-backend/app/.venv/bin/python -m pytest \
 两者共用上述精确端口/测试库与清理规则，不为业务环境提供 apply 入口。
 Knowledge 验证使用独立确认域 `disposable-b7q-only`；同样仅连接获准的一次性 PG，
 复用公共工具而不导入其他 App 的业务包。
-Investment 验证使用 `disposable-b7r-only`，遵守相同精确目标与隔离清理规则；
+Knowbench 验证使用 `disposable-b7r-only`，遵守相同精确目标与隔离清理规则；
 真实 LangGraph checkpointer 也必须使用其测试 Worker 的独立连接，不可沿用管理员。
 
 ```bash

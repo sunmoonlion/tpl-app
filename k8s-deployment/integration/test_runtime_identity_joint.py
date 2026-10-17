@@ -51,7 +51,7 @@ def database_compiler():
     app = BACKEND.parent.parent.name.removesuffix("-app")
     if app == "tpl":
         return template_grants, False
-    if app not in {"info", "knowledge", "investment"}:
+    if app not in {"info", "knowledge", "knowbench"}:
         raise ValueError("no reviewed database policy for this joint test target")
     path = (
         DEPLOYMENT.parent.parent

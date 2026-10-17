@@ -74,7 +74,7 @@ def main() -> int:
             raise ReleaseError("Kubernetes scaffold tracked file count mismatch")
 
         policy = release["release_policy"]
-        if policy.get("instance_sync_order") != ["info", "knowledge", "investment"]:
+        if policy.get("instance_sync_order") != ["info", "knowledge", "knowbench"]:
             raise ReleaseError("instance sync order is not frozen")
         if policy.get("overwrite_v1_1_0_0") is not False:
             raise ReleaseError("v1 1.0.0 protection is not active")

@@ -132,7 +132,7 @@
     "instance_sync_order": [
       "info",
       "knowledge",
-      "investment"
+      "knowbench"
     ],
     "business_changes_before_r4_complete": false,
     "mutable_image_tags_allowed": false,
